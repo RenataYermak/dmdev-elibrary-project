@@ -1,11 +1,18 @@
-package org.example.service.database.entity.order;
+package org.example.service.database.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,7 +25,6 @@ public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "order_id")
 	private Long id;
 
 	@Column(name = "book_id", nullable = false)
@@ -27,11 +33,11 @@ public class Order {
 	@Column(name = "user_id", nullable = false)
 	private Integer user;
 
-	@Column(name = "status", nullable = false, length = 20)
+	@Column(nullable = false, length = 20)
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 
-	@Column(name = "type", nullable = false, length = 20)
+	@Column(nullable = false, length = 20)
 	@Enumerated(EnumType.STRING)
 	private OrderType type;
 

@@ -12,10 +12,10 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
 
-        <mapping class="org.example.service.database.entity.user.User"/>
-        <mapping class="org.example.service.database.entity.order.Order"/>
-        <mapping class="org.example.service.database.entity.book.Book"/>
-        <mapping class="org.example.service.database.entity.book.Author"/>
-        <mapping class="org.example.service.database.entity.book.Category"/>
+        <mapping class="org.example.service.database.entity.User"/>
+        <mapping class="org.example.service.database.entity.Order"/>
+        <mapping class="org.example.service.database.entity.Book"/>
+        <mapping class="org.example.service.database.entity.Author"/>
+        <mapping class="org.example.service.database.entity.Category"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,13 +1,13 @@
 package org.example.service;
 
-import org.example.service.database.entity.book.Author;
-import org.example.service.database.entity.book.Book;
-import org.example.service.database.entity.book.Category;
-import org.example.service.database.entity.order.Order;
-import org.example.service.database.entity.order.OrderStatus;
-import org.example.service.database.entity.order.OrderType;
-import org.example.service.database.entity.user.Role;
-import org.example.service.database.entity.user.User;
+import org.example.service.database.entity.Author;
+import org.example.service.database.entity.Book;
+import org.example.service.database.entity.Category;
+import org.example.service.database.entity.Order;
+import org.example.service.database.entity.OrderStatus;
+import org.example.service.database.entity.OrderType;
+import org.example.service.database.entity.Role;
+import org.example.service.database.entity.User;
 import org.example.service.util.ConfigurationUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,10 +19,10 @@ public class LibraryRunner {
 	public static void main(String[] args) {
 
 		User user = User.builder()
-				.login("Renata1997")
+				.login("Renata19971")
 				.firstname("Renata")
 				.lastname("Yermak")
-				.email("renata1@gmail.com")
+				.email("renata11@gmail.com")
 				.password("12121997")
 				.role(Role.USER)
 				.build();
@@ -38,18 +38,18 @@ public class LibraryRunner {
 				.build();
 
 		Author author = Author.builder()
-				.name("Ernest Hemingway")
+				.name("Ernest Hemingway1")
 				.build();
 
 		Category category = Category.builder()
-				.name("Drama")
+				.name("Comedy1")
 				.build();
 
 		Order order = Order.builder()
-				.book(2)
-				.user(2)
+				.book(3)
+				.user(3)
 				.status(OrderStatus.ORDERED)
-				.type(OrderType.SEASON_TICKET)
+				.type(OrderType.READING_ROOM)
 				.orderedDate(LocalDateTime.now())
 				.build();
 
