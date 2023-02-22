@@ -5,20 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
 @Builder
-@Table
-public class Author {
+public class Author implements BaseEntity<Long> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +21,8 @@ public class Author {
 
 	@Column(unique = true, nullable = false, length = 50)
 	private String name;
+
+	@Builder.Default
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+	private List<Book> books = new ArrayList<>();
 }

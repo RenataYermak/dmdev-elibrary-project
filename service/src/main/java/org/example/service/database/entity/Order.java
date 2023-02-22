@@ -9,9 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -21,17 +24,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Table(name = "orders")
-public class Order {
+public class Order implements BaseEntity<Long> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "book_id", nullable = false)
-	private Integer book;
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	private Book book;
 
-	@Column(name = "user_id", nullable = false)
-	private Integer user;
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	private User user;
 
 	@Column(nullable = false, length = 20)
 	@Enumerated(EnumType.STRING)

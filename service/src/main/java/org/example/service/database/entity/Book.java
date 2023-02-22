@@ -1,24 +1,17 @@
 package org.example.service.database.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
+@ToString(exclude = "orders")
 @Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@Table
-public class Book {
+public class Book implements BaseEntity<Long> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +20,11 @@ public class Book {
 	@Column(nullable = false, length = 50)
 	private String title;
 
-	@Column(name = "author_id", nullable = false)
-	private Integer author;
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	private Author author;
 
-	@Column(name = "category_id", nullable = false)
-	private Integer category;
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	private Category category;
 
 	@Column(name = "publish_year")
 	private Integer publishYear;
@@ -44,4 +37,8 @@ public class Book {
 
 	@Column
 	private String picture;
+
+	@Builder.Default
+	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+	private List<Order> orders = new ArrayList<>();
 }

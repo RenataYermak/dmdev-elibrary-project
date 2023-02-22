@@ -1,26 +1,19 @@
 package org.example.service.database.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
+@EqualsAndHashCode(of = "login")
+@ToString(exclude = "orders")
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
-public class User {
+public class User implements BaseEntity<Long> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,4 +37,8 @@ public class User {
 	@Column(nullable = false, length = 10)
 	@Enumerated(EnumType.STRING)
 	private Role role;
+
+	@Builder.Default
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Order> orders = new ArrayList<>();
 }

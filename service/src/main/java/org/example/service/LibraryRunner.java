@@ -13,41 +13,42 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.time.LocalDateTime;
+import java.util.*;
 
 public class LibraryRunner {
 
 	public static void main(String[] args) {
 
 		User user = User.builder()
-				.login("Renata19971")
-				.firstname("Renata")
+				.login("Renata1w99w7112")
+				.firstname("Renatwaw12")
 				.lastname("Yermak")
-				.email("renata11@gmail.com")
+				.email("renata1w121w@gmail.com")
 				.password("12121997")
 				.role(Role.USER)
+				.build();
+		Author author = Author.builder()
+				.name("Ernest Hemingwwayw2")
+				.build();
+
+		Category category = Category.builder()
+				.name("Comedwyw2")
 				.build();
 
 		Book book = Book.builder()
 				.title("title2")
-				.author(3)
-				.publishYear(1955)
-				.category(1)
+				.author(author)
+				.publishYear(1111)
+				.category(category)
 				.description("text1")
 				.number(12)
 				.picture("picture1")
 				.build();
 
-		Author author = Author.builder()
-				.name("Ernest Hemingway1")
-				.build();
-
-		Category category = Category.builder()
-				.name("Comedy1")
-				.build();
 
 		Order order = Order.builder()
-				.book(3)
-				.user(3)
+				.book(book)
+				.user(user)
 				.status(OrderStatus.ORDERED)
 				.type(OrderType.READING_ROOM)
 				.orderedDate(LocalDateTime.now())
@@ -57,6 +58,10 @@ public class LibraryRunner {
 		     Session session = sessionFactory.openSession()) {
 			session.beginTransaction();
 
+			session.saveOrUpdate(author);
+			session.saveOrUpdate(category);
+			session.saveOrUpdate(book);
+			session.saveOrUpdate(user);
 			session.saveOrUpdate(order);
 
 			session.getTransaction().commit();
