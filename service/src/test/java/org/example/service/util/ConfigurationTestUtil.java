@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 @UtilityClass
-public class HibernateTestUtil {
+public class ConfigurationTestUtil {
 
 	private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15");
 

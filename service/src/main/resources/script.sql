@@ -1,54 +1,76 @@
-create table books
+CREATE TABLE category
 (
-    book_id      bigserial
-        primary key,
-    title        varchar(50) not null,
-    author_id    integer     not null,
-    publish_year integer,
-    category_id  integer   not null,
-    description  text,
-    number       integer     not null,
-    picture      varchar(128)
+    id   SERIAL
+        PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+        UNIQUE
 );
 
-create table users
+ALTER TABLE category
+    OWNER TO postgres;
+
+CREATE TABLE author
 (
-    user_id   bigserial
-        primary key,
-    login     varchar(25) not null
-        unique,
-    firstname varchar(25) not null,
-    lastname  varchar(25) not null,
-    email     varchar(50) not null
-        unique,
-    password  varchar(49) not null,
-    role      varchar(10) not null
+    id   BIGSERIAL
+        PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+        UNIQUE
 );
 
-create table book_authors
+ALTER TABLE author
+    OWNER TO postgres;
+
+CREATE TABLE book
 (
-    author_id   bigserial
-        primary key,
-    author_name varchar(50) not null unique
+    id           BIGSERIAL
+        PRIMARY KEY,
+    title        VARCHAR(50) NOT NULL,
+    author_id    BIGINT      NOT NULL
+        REFERENCES author,
+    publish_year INTEGER,
+    category_id  INTEGER     NOT NULL
+        REFERENCES category,
+    description  TEXT,
+    number       INTEGER     NOT NULL,
+    picture      VARCHAR(128)
 );
 
-create table book_categories
+ALTER TABLE book
+    OWNER TO postgres;
+
+CREATE TABLE users
 (
-    category_id   bigserial
-        primary key,
-    category_name varchar(50) not null unique
+    id        BIGSERIAL
+        PRIMARY KEY,
+    login     VARCHAR(25) NOT NULL
+        UNIQUE,
+    firstname VARCHAR(25) NOT NULL,
+    lastname  VARCHAR(25) NOT NULL,
+    email     VARCHAR(50) NOT NULL
+        UNIQUE,
+    password  VARCHAR(49) NOT NULL,
+    role      VARCHAR(10) NOT NULL
 );
 
-create table orders
+ALTER TABLE users
+    OWNER TO postgres;
+
+CREATE TABLE orders
 (
-    order_id      bigserial
-        primary key,
-    book_id       integer     not null,
-    user_id       integer     not null,
-    status        varchar(20) not null,
-    type          varchar(20) not null,
-    ordered_date  date        not null,
-    reserved_date date,
-    returned_date date,
-    rejected_date date
+    id            BIGSERIAL
+        PRIMARY KEY,
+    book_id       BIGINT      NOT NULL
+        REFERENCES book,
+    user_id       BIGINT      NOT NULL
+        REFERENCES users,
+    status        VARCHAR(20) NOT NULL,
+    type          VARCHAR(20) NOT NULL,
+    ordered_date  DATE        NOT NULL,
+    reserved_date DATE,
+    returned_date DATE,
+    rejected_date DATE
 );
+
+ALTER TABLE orders
+    OWNER TO postgres;
+

@@ -13,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
@@ -44,15 +43,12 @@ public class Order implements BaseEntity<Long> {
 	@Enumerated(EnumType.STRING)
 	private OrderType type;
 
-	@Column(name = "ordered_date", nullable = false)
+	@Column(nullable = false)
 	private LocalDateTime orderedDate;
 
-	@Column(name = "reserved_date")
 	private LocalDateTime reservedDate;
 
-	@Column(name = "returned_date")
 	private LocalDateTime returnedDate;
 
-	@Column(name = "rejected_date")
 	private LocalDateTime rejectedDate;
 }

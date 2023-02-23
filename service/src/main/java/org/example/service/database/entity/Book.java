@@ -1,9 +1,22 @@
 package org.example.service.database.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @ToString(exclude = "orders")
@@ -26,7 +39,6 @@ public class Book implements BaseEntity<Long> {
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private Category category;
 
-	@Column(name = "publish_year")
 	private Integer publishYear;
 
 	@Column(length = 3000)
@@ -35,7 +47,7 @@ public class Book implements BaseEntity<Long> {
 	@Column(nullable = false)
 	private Integer number;
 
-	@Column
+	@Column(length = 128)
 	private String picture;
 
 	@Builder.Default
