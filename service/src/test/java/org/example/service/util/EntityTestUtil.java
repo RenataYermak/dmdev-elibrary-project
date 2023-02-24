@@ -1,9 +1,18 @@
 package org.example.service.util;
 
-import org.example.service.database.entity.*;
+import lombok.experimental.UtilityClass;
+import org.example.service.database.entity.Author;
+import org.example.service.database.entity.Book;
+import org.example.service.database.entity.Category;
+import org.example.service.database.entity.Order;
+import org.example.service.database.entity.OrderStatus;
+import org.example.service.database.entity.OrderType;
+import org.example.service.database.entity.Role;
+import org.example.service.database.entity.User;
 
 import java.time.LocalDateTime;
 
+@UtilityClass
 public class EntityTestUtil {
 
 	public static User getUser() {

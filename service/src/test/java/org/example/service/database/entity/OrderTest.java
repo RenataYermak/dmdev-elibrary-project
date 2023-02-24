@@ -9,7 +9,7 @@ import static org.example.service.util.EntityTestUtil.getCategory;
 import static org.example.service.util.EntityTestUtil.getOrder;
 import static org.example.service.util.EntityTestUtil.getUser;
 
-public class OrderIT extends EntityTestBase {
+public class OrderTest extends EntityTestBase {
 
 	@Test
 	void saveAndGetBook() {

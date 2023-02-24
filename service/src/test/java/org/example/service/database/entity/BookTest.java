@@ -7,7 +7,7 @@ import static org.example.service.util.EntityTestUtil.getAuthor;
 import static org.example.service.util.EntityTestUtil.getBook;
 import static org.example.service.util.EntityTestUtil.getCategory;
 
-public class BookIT extends EntityTestBase {
+public class BookTest extends EntityTestBase {
 
 	@Test
 	void saveAndGetBook() {

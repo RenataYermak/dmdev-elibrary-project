@@ -19,19 +19,19 @@ public class LibraryRunner {
 	public static void main(String[] args) {
 
 		User user = User.builder()
-				.login("1Renata111ww1")
-				.firstname("1Renatwwaw12111")
+				.login("Renata1313")
+				.firstname("Renata")
 				.lastname("Yermak")
-				.email("1renata1ww121111w@gmail.com")
+				.email("renata1ww@gmail.com")
 				.password("12121997")
 				.role(Role.USER)
 				.build();
 		Author author = Author.builder()
-				.name("1Ernest Hemingwwayw2")
+				.name("Ernest Hemingway")
 				.build();
 
 		Category category = Category.builder()
-				.name("1Comedwyw2")
+				.name("Poem")
 				.build();
 
 		Book book = Book.builder()
