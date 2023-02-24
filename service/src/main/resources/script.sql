@@ -1,4 +1,4 @@
-CREATE TABLE category
+CREATE TABLE public.category
 (
     id   SERIAL
         PRIMARY KEY,
@@ -6,10 +6,10 @@ CREATE TABLE category
         UNIQUE
 );
 
-ALTER TABLE category
+ALTER TABLE public.category
     OWNER TO postgres;
 
-CREATE TABLE author
+CREATE TABLE public.author
 (
     id   BIGSERIAL
         PRIMARY KEY,
@@ -17,28 +17,28 @@ CREATE TABLE author
         UNIQUE
 );
 
-ALTER TABLE author
+ALTER TABLE public.author
     OWNER TO postgres;
 
-CREATE TABLE book
+CREATE TABLE public.book
 (
     id           BIGSERIAL
         PRIMARY KEY,
     title        VARCHAR(50) NOT NULL,
     author_id    BIGINT      NOT NULL
-        REFERENCES author,
+        REFERENCES public.author,
     publish_year INTEGER,
     category_id  INTEGER     NOT NULL
-        REFERENCES category,
+        REFERENCES public.category,
     description  TEXT,
     number       INTEGER     NOT NULL,
     picture      VARCHAR(128)
 );
 
-ALTER TABLE book
+ALTER TABLE public.book
     OWNER TO postgres;
 
-CREATE TABLE users
+CREATE TABLE public.users
 (
     id        BIGSERIAL
         PRIMARY KEY,
@@ -52,25 +52,25 @@ CREATE TABLE users
     role      VARCHAR(10) NOT NULL
 );
 
-ALTER TABLE users
+ALTER TABLE public.users
     OWNER TO postgres;
 
-CREATE TABLE orders
+CREATE TABLE public.orders
 (
     id            BIGSERIAL
         PRIMARY KEY,
     book_id       BIGINT      NOT NULL
-        REFERENCES book,
+        REFERENCES public.book,
     user_id       BIGINT      NOT NULL
-        REFERENCES users,
+        REFERENCES public.users,
     status        VARCHAR(20) NOT NULL,
     type          VARCHAR(20) NOT NULL,
-    ordered_date  DATE        NOT NULL,
-    reserved_date DATE,
-    returned_date DATE,
-    rejected_date DATE
+    ordered_date  TIMESTAMP   NOT NULL,
+    reserved_date TIMESTAMP,
+    returned_date TIMESTAMP,
+    rejected_date TIMESTAMP
 );
 
-ALTER TABLE orders
+ALTER TABLE public.orders
     OWNER TO postgres;
 

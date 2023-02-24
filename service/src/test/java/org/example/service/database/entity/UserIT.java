@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.example.service.util.EntityTestUtil.getUser;
 
-public class UserTest extends EntityTestBase {
+public class UserIT extends EntityTestBase {
 
 	@Test
 	void saveAndGetUser() {
