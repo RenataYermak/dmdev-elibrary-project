@@ -5,6 +5,6 @@
 # idea files
 .idea/
 /.idea/
-/.iml/
-
+/.iml
+/dmdev-elibrary-project.iml
 
