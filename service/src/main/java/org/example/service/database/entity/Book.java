@@ -3,6 +3,7 @@ package org.example.service.database.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@EqualsAndHashCode(exclude = "orders")
 @ToString(exclude = "orders")
 @Data
 @AllArgsConstructor

@@ -47,8 +47,6 @@ public class Order implements BaseEntity<Long> {
 	private LocalDateTime orderedDate;
 
 	private LocalDateTime reservedDate;
-
 	private LocalDateTime returnedDate;
-
 	private LocalDateTime rejectedDate;
 }

@@ -9,7 +9,7 @@ import static org.example.service.util.EntityTestUtil.getCategory;
 import static org.example.service.util.EntityTestUtil.getOrder;
 import static org.example.service.util.EntityTestUtil.getUser;
 
-public class OrderTest extends EntityTestBase {
+public class OrderIT extends EntityTestBase {
 
 	@Test
 	void saveAndGetBook() {
@@ -18,15 +18,18 @@ public class OrderTest extends EntityTestBase {
 		var book = getBook(category, author);
 		var user = getUser();
 		var expectedOrder = getOrder(book, user);
+
 		session.save(category);
 		session.save(author);
 		session.save(book);
 		session.save(user);
 		session.save(expectedOrder);
 
+		session.clear();
+
 		var actualOrder = session.get(Order.class, expectedOrder.getId());
 
-		assertThat(actualOrder).isEqualTo(expectedOrder);
+		assertThat(expectedOrder).isEqualTo(actualOrder);
 	}
 
 	@Test
@@ -36,17 +39,20 @@ public class OrderTest extends EntityTestBase {
 		var book = getBook(category, author);
 		var user = getUser();
 		var expectedOrder = getOrder(book, user);
+
 		session.save(category);
 		session.save(author);
 		session.save(book);
 		session.save(user);
 		session.save(expectedOrder);
 
-		var actualOrder = session.get(Order.class, expectedOrder.getId());
-		actualOrder.setType(OrderType.SEASON_TICKET);
-		session.update(actualOrder);
+		expectedOrder.setType(OrderType.SEASON_TICKET);
+		session.flush();
+		session.clear();
 
-		assertThat(actualOrder).isEqualTo(expectedOrder);
+		var actualOrder = session.get(Order.class, expectedOrder.getId());
+
+		assertThat(expectedOrder).isEqualTo(actualOrder);
 	}
 
 	@Test
@@ -56,12 +62,16 @@ public class OrderTest extends EntityTestBase {
 		var book = getBook(category, author);
 		var user = getUser();
 		var order = getOrder(book, user);
+
 		session.save(category);
 		session.save(author);
 		session.save(book);
 		session.save(user);
 		session.save(order);
+
 		session.delete(order);
+		session.flush();
+		session.clear();
 
 		var deletedOrder = session.get(Order.class, order.getId());
 

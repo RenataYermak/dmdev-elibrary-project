@@ -7,20 +7,23 @@ import static org.example.service.util.EntityTestUtil.getAuthor;
 import static org.example.service.util.EntityTestUtil.getBook;
 import static org.example.service.util.EntityTestUtil.getCategory;
 
-public class BookTest extends EntityTestBase {
+public class BookIT extends EntityTestBase {
 
 	@Test
 	void saveAndGetBook() {
 		var category = getCategory();
 		var author = getAuthor();
 		var expectedBook = getBook(category, author);
+
 		session.save(category);
 		session.save(author);
 		session.save(expectedBook);
 
+		session.clear();
+
 		var actualBook = session.get(Book.class, expectedBook.getId());
 
-		assertThat(actualBook).isEqualTo(expectedBook);
+		assertThat(expectedBook).isEqualTo(actualBook);
 	}
 
 	@Test
@@ -28,15 +31,18 @@ public class BookTest extends EntityTestBase {
 		var category = getCategory();
 		var author = getAuthor();
 		var expectedBook = getBook(category, author);
+
 		session.save(category);
 		session.save(author);
 		session.save(expectedBook);
 
-		var actualBook = session.get(Book.class, expectedBook.getId());
-		actualBook.setTitle("New Title");
-		session.update(actualBook);
+		expectedBook.setTitle("New Title");
+		session.flush();
+		session.clear();
 
-		assertThat(actualBook).isEqualTo(expectedBook);
+		var actualBook = session.get(Book.class, expectedBook.getId());
+
+		assertThat(expectedBook.getTitle()).isEqualTo(actualBook.getTitle());
 	}
 
 	@Test
@@ -44,10 +50,14 @@ public class BookTest extends EntityTestBase {
 		var category = getCategory();
 		var author = getAuthor();
 		var book = getBook(category, author);
+
 		session.save(category);
 		session.save(author);
 		session.save(book);
+
 		session.delete(book);
+		session.flush();
+		session.clear();
 
 		var deletedBook = session.get(Book.class, book.getId());
 
