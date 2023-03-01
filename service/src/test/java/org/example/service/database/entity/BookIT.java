@@ -24,59 +24,59 @@ public class BookIT extends EntityTestBase {
         assertThat(book.getId()).isNotNull();
     }
 
-	@Test
-	void getBookById() {
-		var category = getCategory();
-		var author = getAuthor();
-		var expectedBook = getBook(category, author);
+    @Test
+    void getBookById() {
+        var category = getCategory();
+        var author = getAuthor();
+        var expectedBook = getBook(category, author);
 
-		session.save(category);
-		session.save(author);
-		session.save(expectedBook);
+        session.save(category);
+        session.save(author);
+        session.save(expectedBook);
 
-		session.clear();
+        session.clear();
 
-		var actualBook = session.get(Book.class, expectedBook.getId());
+        var actualBook = session.get(Book.class, expectedBook.getId());
 
-		assertThat(expectedBook).isEqualTo(actualBook);
-	}
+        assertThat(expectedBook).isEqualTo(actualBook);
+    }
 
-	@Test
-	void updateBook() {
-		var category = getCategory();
-		var author = getAuthor();
-		var expectedBook = getBook(category, author);
+    @Test
+    void updateBook() {
+        var category = getCategory();
+        var author = getAuthor();
+        var expectedBook = getBook(category, author);
 
-		session.save(category);
-		session.save(author);
-		session.save(expectedBook);
+        session.save(category);
+        session.save(author);
+        session.save(expectedBook);
 
-		expectedBook.setTitle("New Title");
+        expectedBook.setTitle("New Title");
         session.update(expectedBook);
-		session.flush();
-		session.clear();
+        session.flush();
+        session.clear();
 
-		var actualBook = session.get(Book.class, expectedBook.getId());
+        var actualBook = session.get(Book.class, expectedBook.getId());
 
-		assertThat(expectedBook.getTitle()).isEqualTo(actualBook.getTitle());
-	}
+        assertThat(expectedBook.getTitle()).isEqualTo(actualBook.getTitle());
+    }
 
-	@Test
-	void deleteBook() {
-		var category = getCategory();
-		var author = getAuthor();
-		var book = getBook(category, author);
+    @Test
+    void deleteBook() {
+        var category = getCategory();
+        var author = getAuthor();
+        var book = getBook(category, author);
 
-		session.save(category);
-		session.save(author);
-		session.save(book);
+        session.save(category);
+        session.save(author);
+        session.save(book);
 
-		session.delete(book);
-		session.flush();
-		session.clear();
+        session.delete(book);
+        session.flush();
+        session.clear();
 
-		var deletedBook = session.get(Book.class, book.getId());
+        var deletedBook = session.get(Book.class, book.getId());
 
-		assertThat(deletedBook).isNull();
-	}
+        assertThat(deletedBook).isNull();
+    }
 }

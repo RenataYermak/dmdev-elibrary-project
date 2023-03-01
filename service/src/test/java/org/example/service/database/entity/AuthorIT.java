@@ -17,44 +17,44 @@ public class AuthorIT extends EntityTestBase {
         assertThat(author).isNotNull();
     }
 
-	@Test
-	void getAuthorById() {
-		var expectedAuthor = getAuthor();
-		session.save(expectedAuthor);
+    @Test
+    void getAuthorById() {
+        var expectedAuthor = getAuthor();
+        session.save(expectedAuthor);
 
-		session.clear();
+        session.clear();
 
-		var actualAuthor = session.get(Author.class, expectedAuthor.getId());
+        var actualAuthor = session.get(Author.class, expectedAuthor.getId());
 
-		assertThat(expectedAuthor).isEqualTo(actualAuthor);
-	}
+        assertThat(expectedAuthor).isEqualTo(actualAuthor);
+    }
 
-	@Test
-	void updateAuthor() {
-		var expectedAuthor = getAuthor();
-		session.save(expectedAuthor);
+    @Test
+    void updateAuthor() {
+        var expectedAuthor = getAuthor();
+        session.save(expectedAuthor);
 
-		expectedAuthor.setName("Stephen King");
+        expectedAuthor.setName("Stephen King");
         session.update(expectedAuthor);
-		session.flush();
-		session.clear();
+        session.flush();
+        session.clear();
 
-		var actualAuthor = session.get(Author.class, expectedAuthor.getId());
+        var actualAuthor = session.get(Author.class, expectedAuthor.getId());
 
-		assertThat(expectedAuthor.getName()).isEqualTo(actualAuthor.getName());
-	}
+        assertThat(expectedAuthor.getName()).isEqualTo(actualAuthor.getName());
+    }
 
-	@Test
-	void deleteAuthor() {
-		var author = getAuthor();
-		session.save(author);
+    @Test
+    void deleteAuthor() {
+        var author = getAuthor();
+        session.save(author);
 
-		session.delete(author);
-		session.flush();
-		session.clear();
+        session.delete(author);
+        session.flush();
+        session.clear();
 
-		var deletedAuthor = session.get(Author.class, author.getId());
+        var deletedAuthor = session.get(Author.class, author.getId());
 
-		assertThat(deletedAuthor).isNull();
-	}
+        assertThat(deletedAuthor).isNull();
+    }
 }
