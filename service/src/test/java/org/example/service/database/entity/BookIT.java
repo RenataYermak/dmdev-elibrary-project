@@ -9,8 +9,23 @@ import static org.example.service.util.EntityTestUtil.getCategory;
 
 public class BookIT extends EntityTestBase {
 
+    @Test
+    void saveBook() {
+        var category = getCategory();
+        var author = getAuthor();
+        var book = getBook(category, author);
+
+        session.save(category);
+        session.save(author);
+        session.save(book);
+
+        session.clear();
+
+        assertThat(book.getId()).isNotNull();
+    }
+
 	@Test
-	void saveAndGetBook() {
+	void getBookById() {
 		var category = getCategory();
 		var author = getAuthor();
 		var expectedBook = getBook(category, author);

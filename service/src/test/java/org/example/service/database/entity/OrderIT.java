@@ -10,72 +10,90 @@ import static org.example.service.util.EntityTestUtil.getOrder;
 import static org.example.service.util.EntityTestUtil.getUser;
 
 public class OrderIT extends EntityTestBase {
+    @Test
+    void saveBook() {
+        var category = getCategory();
+        var author = getAuthor();
+        var book = getBook(category, author);
+        var user = getUser();
+        var order = getOrder(book, user);
 
-	@Test
-	void saveAndGetBook() {
-		var category = getCategory();
-		var author = getAuthor();
-		var book = getBook(category, author);
-		var user = getUser();
-		var expectedOrder = getOrder(book, user);
+        session.save(category);
+        session.save(author);
+        session.save(book);
+        session.save(user);
+        session.save(order);
 
-		session.save(category);
-		session.save(author);
-		session.save(book);
-		session.save(user);
-		session.save(expectedOrder);
+        session.clear();
 
-		session.clear();
+        assertThat(order.getId()).isNotNull();
+    }
 
-		var actualOrder = session.get(Order.class, expectedOrder.getId());
+    @Test
+    void getBookById() {
+        var category = getCategory();
+        var author = getAuthor();
+        var book = getBook(category, author);
+        var user = getUser();
+        var expectedOrder = getOrder(book, user);
 
-		assertThat(expectedOrder).isEqualTo(actualOrder);
-	}
+        session.save(category);
+        session.save(author);
+        session.save(book);
+        session.save(user);
+        session.save(expectedOrder);
 
-	@Test
-	void updateBook() {
-		var category = getCategory();
-		var author = getAuthor();
-		var book = getBook(category, author);
-		var user = getUser();
-		var expectedOrder = getOrder(book, user);
+        session.clear();
 
-		session.save(category);
-		session.save(author);
-		session.save(book);
-		session.save(user);
-		session.save(expectedOrder);
+        var actualOrder = session.get(Order.class, expectedOrder.getId());
 
-		expectedOrder.setType(OrderType.SEASON_TICKET);
+        assertThat(expectedOrder).isEqualTo(actualOrder);
+    }
+
+    @Test
+    void updateBook() {
+        var category = getCategory();
+        var author = getAuthor();
+        var book = getBook(category, author);
+        var user = getUser();
+        var expectedOrder = getOrder(book, user);
+
+        session.save(category);
+        session.save(author);
+        session.save(book);
+        session.save(user);
+        session.save(expectedOrder);
+
+        expectedOrder.setType(OrderType.SEASON_TICKET);
         session.update(expectedOrder);
-		session.flush();
-		session.clear();
+        session.flush();
+        session.clear();
 
-		var actualOrder = session.get(Order.class, expectedOrder.getId());
+        var actualOrder = session.get(Order.class, expectedOrder.getId());
 
-		assertThat(expectedOrder).isEqualTo(actualOrder);
-	}
+        assertThat(expectedOrder).isEqualTo(actualOrder);
+    }
 
-	@Test
-	void deleteBook() {
-		var category = getCategory();
-		var author = getAuthor();
-		var book = getBook(category, author);
-		var user = getUser();
-		var order = getOrder(book, user);
+    @Test
+    void deleteBook() {
+        var category = getCategory();
+        var author = getAuthor();
+        var book = getBook(category, author);
+        var user = getUser();
+        var order = getOrder(book, user);
 
-		session.save(category);
-		session.save(author);
-		session.save(book);
-		session.save(user);
-		session.save(order);
+        session.save(category);
+        session.save(author);
+        session.save(book);
+        session.save(user);
+        session.save(order);
 
-		session.delete(order);
-		session.flush();
-		session.clear();
+        session.delete(order);
+        session.flush();
+        session.clear();
 
-		var deletedOrder = session.get(Order.class, order.getId());
+        var deletedOrder = session.get(Order.class, order.getId());
 
-		assertThat(deletedOrder).isNull();
-	}
+        assertThat(deletedOrder).isNull();
+    }
 }

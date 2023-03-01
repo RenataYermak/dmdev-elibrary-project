@@ -7,44 +7,54 @@ import static org.example.service.util.EntityTestUtil.getCategory;
 
 public class CategoryIT extends EntityTestBase {
 
-	@Test
-	void saveAndGetCategory() {
-		var expectedCategory = getCategory();
-		session.save(expectedCategory);
+    @Test
+    void saveCategory() {
+        var category = getCategory();
+        session.save(category);
 
-		session.clear();
+        session.clear();
 
-		var actualCategory = session.get(Category.class, expectedCategory.getId());
+        assertThat(category.getId()).isNotNull();
+    }
 
-		assertThat(expectedCategory).isEqualTo(actualCategory);
-	}
+    @Test
+    void getCategoryById() {
+        var expectedCategory = getCategory();
+        session.save(expectedCategory);
 
-	@Test
-	void updateCategory() {
-		var expectedCategory = getCategory();
-		session.save(expectedCategory);
+        session.clear();
 
-		expectedCategory.setName("Horror");
+        var actualCategory = session.get(Category.class, expectedCategory.getId());
+
+        assertThat(expectedCategory).isEqualTo(actualCategory);
+    }
+
+    @Test
+    void updateCategory() {
+        var expectedCategory = getCategory();
+        session.save(expectedCategory);
+
+        expectedCategory.setName("Horror");
         session.update(expectedCategory);
-		session.flush();
-		session.clear();
+        session.flush();
+        session.clear();
 
-		var actualCategory = session.get(Category.class, expectedCategory.getId());
+        var actualCategory = session.get(Category.class, expectedCategory.getId());
 
-		assertThat(expectedCategory).isEqualTo(actualCategory);
-	}
+        assertThat(expectedCategory).isEqualTo(actualCategory);
+    }
 
-	@Test
-	void deleteCategory() {
-		var category = getCategory();
-		session.save(category);
+    @Test
+    void deleteCategory() {
+        var category = getCategory();
+        session.save(category);
 
-		session.delete(category);
-		session.flush();
-		session.clear();
+        session.delete(category);
+        session.flush();
+        session.clear();
 
-		var deletedCategory = session.get(Category.class, category.getId());
+        var deletedCategory = session.get(Category.class, category.getId());
 
-		assertThat(deletedCategory).isNull();
-	}
+        assertThat(deletedCategory).isNull();
+    }
 }

@@ -7,17 +7,25 @@ import static org.example.service.util.EntityTestUtil.getUser;
 
 public class UserIT extends EntityTestBase {
 
-	@Test
-	void saveAndGetUser() {
-		var expectedUser = getUser();
-		session.save(expectedUser);
+    @Test
+    void saveUser() {
+        var user = getUser();
+        session.save(user);
+        session.clear();
 
-		session.clear();
+        assertThat(user.getId()).isNotNull();
+    }
 
-		var actualUser = session.get(User.class, expectedUser.getId());
+    @Test
+    void getUserById() {
+        var expectedUser = getUser();
+        session.save(expectedUser);
+        session.clear();
 
-		assertThat(expectedUser).isEqualTo(actualUser);
-	}
+        var actualUser = session.get(User.class, expectedUser.getId());
+
+        assertThat(expectedUser).isEqualTo(actualUser);
+    }
 
 	@Test
 	void updateUser() {

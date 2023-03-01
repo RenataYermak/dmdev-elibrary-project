@@ -7,8 +7,18 @@ import static org.example.service.util.EntityTestUtil.getAuthor;
 
 public class AuthorIT extends EntityTestBase {
 
+    @Test
+    void saveAuthor() {
+        var author = getAuthor();
+        session.save(author);
+
+        session.clear();
+
+        assertThat(author).isNotNull();
+    }
+
 	@Test
-	void saveAndGetAuthor() {
+	void getAuthorById() {
 		var expectedAuthor = getAuthor();
 		session.save(expectedAuthor);
 
