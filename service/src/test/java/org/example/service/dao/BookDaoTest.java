@@ -13,7 +13,6 @@ class BookDaoTest extends IntegrationTestBase {
 
     private final BookDao bookDao = BookDao.getInstance();
 
-
     @Test
     void findAll() {
         List<Book> results = bookDao.findAll(session);

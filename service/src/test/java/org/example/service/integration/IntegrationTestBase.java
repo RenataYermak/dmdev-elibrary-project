@@ -11,29 +11,29 @@ import org.junit.jupiter.api.BeforeEach;
 
 public abstract class IntegrationTestBase {
 
-	private static SessionFactory sessionFactory;
-	protected Session session;
+    private static SessionFactory sessionFactory;
+    protected Session session;
 
-	@BeforeAll
-	static void init() {
-		sessionFactory = ConfigurationTestUtil.buildSessionFactory();
+    @BeforeAll
+    static void init() {
+        sessionFactory = ConfigurationTestUtil.buildSessionFactory();
         TestDataImporter.importData(sessionFactory);
-	}
+    }
 
-	@AfterAll
-	static void close() {
-		sessionFactory.close();
-	}
+    @AfterAll
+    static void close() {
+        sessionFactory.close();
+    }
 
-	@BeforeEach
-	void sessionInit() {
-		session = sessionFactory.openSession();
-		session.beginTransaction();
-	}
+    @BeforeEach
+    void sessionInit() {
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+    }
 
-	@AfterEach
-	void setSessionDestroy() {
-		session.getTransaction().rollback();
-		session.close();
-	}
+    @AfterEach
+    void setSessionDestroy() {
+        session.getTransaction().rollback();
+        session.close();
+    }
 }

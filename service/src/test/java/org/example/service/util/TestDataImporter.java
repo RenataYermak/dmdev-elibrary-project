@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 @UtilityClass
 public class TestDataImporter {
 
-
     public void importData(SessionFactory sessionFactory) {
         @Cleanup Session session = sessionFactory.openSession();
 
@@ -134,4 +133,3 @@ public class TestDataImporter {
         return order;
     }
 }
-

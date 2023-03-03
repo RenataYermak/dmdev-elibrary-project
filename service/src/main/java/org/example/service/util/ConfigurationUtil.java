@@ -8,16 +8,16 @@ import org.hibernate.cfg.Configuration;
 @UtilityClass
 public class ConfigurationUtil {
 
-	public static SessionFactory buildSessionFactory() {
-		Configuration configuration = buildConfiguration();
-		configuration.configure();
+    public static SessionFactory buildSessionFactory() {
+        Configuration configuration = buildConfiguration();
+        configuration.configure();
 
-		return configuration.buildSessionFactory();
-	}
+        return configuration.buildSessionFactory();
+    }
 
-	public static Configuration buildConfiguration() {
-		Configuration configuration = new Configuration();
-		configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
-		return configuration;
-	}
+    public static Configuration buildConfiguration() {
+        Configuration configuration = new Configuration();
+        configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
+        return configuration;
+    }
 }
