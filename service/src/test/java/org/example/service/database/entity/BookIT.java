@@ -1,5 +1,6 @@
 package org.example.service.database.entity;
 
+import org.example.service.integration.IntegrationTestBase;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -7,7 +8,7 @@ import static org.example.service.util.EntityTestUtil.getAuthor;
 import static org.example.service.util.EntityTestUtil.getBook;
 import static org.example.service.util.EntityTestUtil.getCategory;
 
-public class BookIT extends EntityTestBase {
+public class BookIT extends IntegrationTestBase {
 
     @Test
     void saveBook() {

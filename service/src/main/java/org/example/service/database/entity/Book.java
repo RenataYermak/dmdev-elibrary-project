@@ -15,10 +15,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedEntityGraph(
+        name = "WithOrders",
+        attributeNodes = {
+                @NamedAttributeNode("orders")
+        }
+)
 @Entity
 @EqualsAndHashCode(exclude = "orders")
 @ToString(exclude = "orders")

@@ -1,6 +1,7 @@
-package org.example.service.database.entity;
+package org.example.service.integration;
 
 import org.example.service.util.ConfigurationTestUtil;
+import org.example.service.util.TestDataImporter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterAll;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-public abstract class EntityTestBase {
+public abstract class IntegrationTestBase {
 
 	private static SessionFactory sessionFactory;
 	protected Session session;
@@ -16,6 +17,7 @@ public abstract class EntityTestBase {
 	@BeforeAll
 	static void init() {
 		sessionFactory = ConfigurationTestUtil.buildSessionFactory();
+        TestDataImporter.importData(sessionFactory);
 	}
 
 	@AfterAll
