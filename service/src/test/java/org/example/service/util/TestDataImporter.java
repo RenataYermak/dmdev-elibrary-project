@@ -32,7 +32,7 @@ public class TestDataImporter {
 
         Book deathOnTheNile = saveBook(session, "Death on the Nile", 1937,
                 "description", 5, detective, agathaChristie);
-        Book thePrematureBurial = saveBook(session, "The Premature Burial", 1962,
+        Book thePrematureBurial = saveBook(session, "The Premature Burial", 1937,
                 "description", 2, drama, edgarAllanPoe);
         Book theMemoirsOfSherlockHolmes = saveBook(session, "The Memoirs of Sherlock Holmes", 1893,
                 "description", 7, detective, conanDoyle);
