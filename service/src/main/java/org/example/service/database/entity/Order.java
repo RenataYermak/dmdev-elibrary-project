@@ -25,28 +25,28 @@ import java.time.LocalDateTime;
 @Table(name = "orders")
 public class Order implements BaseEntity<Long> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private Book book;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Book book;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private User user;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private User user;
 
-	@Column(nullable = false, length = 20)
-	@Enumerated(EnumType.STRING)
-	private OrderStatus status;
+    @Column(nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
-	@Column(nullable = false, length = 20)
-	@Enumerated(EnumType.STRING)
-	private OrderType type;
+    @Column(nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
+    private OrderType type;
 
-	@Column(nullable = false)
-	private LocalDateTime orderedDate;
+    @Column(nullable = false)
+    private LocalDateTime orderedDate;
 
-	private LocalDateTime reservedDate;
-	private LocalDateTime returnedDate;
-	private LocalDateTime rejectedDate;
+    private LocalDateTime reservedDate;
+    private LocalDateTime returnedDate;
+    private LocalDateTime rejectedDate;
 }

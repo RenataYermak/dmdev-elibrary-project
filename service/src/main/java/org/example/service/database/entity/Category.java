@@ -26,14 +26,14 @@ import java.util.List;
 @Builder
 public class Category implements BaseEntity<Integer> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(unique = true, nullable = false, length = 50)
-	private String name;
+    @Column(unique = true, nullable = false, length = 50)
+    private String name;
 
-	@Builder.Default
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-	private List<Book> books = new ArrayList<>();
+    @Builder.Default
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Book> books = new ArrayList<>();
 }

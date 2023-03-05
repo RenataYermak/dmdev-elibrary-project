@@ -9,26 +9,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BookDaoTest extends IntegrationTestBase {
+class BookDaoIT extends IntegrationTestBase {
 
     private final BookDao bookDao = BookDao.getInstance();
-
-    @Test
-    void findAll() {
-        List<Book> results = bookDao.findAll(session);
-
-        assertThat(results).hasSize(4);
-
-    }
-
-    @Test
-    void findById() {
-        List<Book> results = bookDao.findAll(session);
-        assertThat(results).hasSize(4);
-
-        List<Long> book = results.stream().map(Book::getId).toList();
-        assertThat(book).containsExactlyInAnyOrder(1L, 2L, 3L, 4L);
-    }
 
     @Test
     void findAllByFilterQueryDsl() {

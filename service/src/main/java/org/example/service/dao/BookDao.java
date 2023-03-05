@@ -29,21 +29,6 @@ public class BookDao {
         return INSTANCE;
     }
 
-    public List<Book> findById(Session session, Long id) {
-        return new JPAQuery<Book>(session)
-                .select(book)
-                .from(book)
-                .where(book.id.eq(id))
-                .fetch();
-    }
-
-    public List<Book> findAll(Session session) {
-        return new JPAQuery<Book>(session)
-                .select(book)
-                .from(book)
-                .fetch();
-    }
-
     public List<Book> findAllByFilterQueryDsl(Session session, BookFilter filter) {
         var predicate = QPredicate.builder()
                 .add(filter.getPublishYear(), book.publishYear::eq)

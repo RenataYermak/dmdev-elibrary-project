@@ -45,4 +45,3 @@ CREATE TABLE orders
     rejected_date TIMESTAMP
 );
 
-
