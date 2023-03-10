@@ -48,15 +48,14 @@ public class TestDataImporter {
         User eva = saveUser(session, "Eva", "Shturo",
                 "eva@gmail.com", "1111", Role.USER);
 
-        Order one = saveOrder(session, deathOnTheNile, renata, OrderStatus.ORDERED,
+        saveOrder(session, deathOnTheNile, renata, OrderStatus.ORDERED,
                 OrderType.READING_ROOM, LocalDateTime.now());
-        Order two = saveOrder(session, theShining, renata, OrderStatus.ORDERED,
+        saveOrder(session, theShining, renata, OrderStatus.ORDERED,
                 OrderType.READING_ROOM, LocalDateTime.now());
-        Order three = saveOrder(session, deathOnTheNile, alex, OrderStatus.ORDERED,
+        saveOrder(session, deathOnTheNile, alex, OrderStatus.ORDERED,
                 OrderType.READING_ROOM, LocalDateTime.now());
-        Order four = saveOrder(session, thePrematureBurial, eva, OrderStatus.ORDERED,
+        saveOrder(session, thePrematureBurial, eva, OrderStatus.ORDERED,
                 OrderType.READING_ROOM, LocalDateTime.now());
-
     }
 
     private Category saveCategory(Session session, String name) {
