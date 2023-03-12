@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UserRepositoryIT extends IntegrationTestBase {
 
@@ -43,13 +44,28 @@ public class UserRepositoryIT extends IntegrationTestBase {
         assertThat(actualUser).isNotNull();
     }
 
+    //    @Test
+//    void delete() {
+//        var userRepository = new UserRepository(session);
+//
+//        userRepository.delete(1L);
+//
+//        assertThat(userRepository.findById(1L)).isEmpty();
+//    }
     @Test
-    void delete() {
+    void deleteExistingUser() {
         var userRepository = new UserRepository(session);
 
         userRepository.delete(1L);
 
         assertThat(userRepository.findById(1L)).isEmpty();
+    }
+
+    @Test
+    void deleteNotExistingUser() {
+        var userRepository = new UserRepository(session);
+
+        assertThrows(IllegalArgumentException.class, () -> userRepository.delete(100500900L));
     }
 
     @Test
@@ -64,5 +80,30 @@ public class UserRepositoryIT extends IntegrationTestBase {
 
         assertThat(actualUser).isPresent();
         assertThat(actualUser.get().getEmail()).isEqualTo("newemail@gmail.com");
+    }
+
+    @Test
+    void findExistUserByEmailAndPassword() {
+        var userRepository = new UserRepository(session);
+
+        String email = "renatayermak@gmail.com";
+        String password = "1212";
+
+        List<User> users = userRepository.findAllByEmailAndPassword(email, password);
+
+        assertNotNull(users);
+        assertThat(users).hasSize(1);
+        assertThat(users.get(0).getId()).isEqualTo(1);
+    }
+
+    @Test
+    void findNotExistUserByEmailAndPassword() {
+        var userRepository = new UserRepository(session);
+
+        String email = "yermakrenata@gmail.com";
+        String password = "1313";
+        List<User> users = userRepository.findAllByEmailAndPassword(email, password);
+
+        assertThat(users).hasSize(0);
     }
 }

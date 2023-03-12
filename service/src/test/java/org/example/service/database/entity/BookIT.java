@@ -1,9 +1,10 @@
 package org.example.service.database.entity;
 
-import org.assertj.core.api.Assertions;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BookIT extends IntegrationTestBase {
 
@@ -19,7 +20,7 @@ public class BookIT extends IntegrationTestBase {
 
         session.clear();
 
-        Assertions.assertThat(book.getId()).isNotNull();
+        assertThat(book.getId()).isNotNull();
     }
 
     @Test
@@ -36,7 +37,7 @@ public class BookIT extends IntegrationTestBase {
 
         var actualBook = session.get(Book.class, expectedBook.getId());
 
-        Assertions.assertThat(expectedBook).isEqualTo(actualBook);
+        assertThat(expectedBook).isEqualTo(actualBook);
     }
 
     @Test
@@ -56,7 +57,7 @@ public class BookIT extends IntegrationTestBase {
 
         var actualBook = session.get(Book.class, expectedBook.getId());
 
-        Assertions.assertThat(expectedBook.getTitle()).isEqualTo(actualBook.getTitle());
+        assertThat(expectedBook.getTitle()).isEqualTo(actualBook.getTitle());
     }
 
     @Test
@@ -75,6 +76,6 @@ public class BookIT extends IntegrationTestBase {
 
         var deletedBook = session.get(Book.class, book.getId());
 
-        Assertions.assertThat(deletedBook).isNull();
+        assertThat(deletedBook).isNull();
     }
 }

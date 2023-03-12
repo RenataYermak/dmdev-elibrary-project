@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class OrderRepositoryIT extends IntegrationTestBase {
 
@@ -59,12 +60,19 @@ public class OrderRepositoryIT extends IntegrationTestBase {
     }
 
     @Test
-    void delete() {
+    void deleteExistingOrder() {
         var orderRepository = new OrderRepository(session);
 
         orderRepository.delete(1L);
 
         assertThat(orderRepository.findById(1L)).isEmpty();
+    }
+
+    @Test
+    void deleteNotExistingOrder() {
+        var orderRepository = new OrderRepository(session);
+
+        assertThrows(IllegalArgumentException.class, () -> orderRepository.delete(100500900L));
     }
 
     @Test

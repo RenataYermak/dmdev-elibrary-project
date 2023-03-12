@@ -14,6 +14,18 @@ public abstract class BaseRepository<T extends Serializable, E extends BaseEntit
     private final Class<E> clazz;
     protected final EntityManager entityManager;
 
+    @Override
+    public Optional<E> findById(T id) {
+        return Optional.ofNullable(entityManager.find(clazz, id));
+    }
+
+    @Override
+    public List<E> findAll() {
+        var criteria = entityManager.getCriteriaBuilder().createQuery(clazz);
+        criteria.from(clazz);
+        return entityManager.createQuery(criteria)
+                .getResultList();
+    }
 
     @Override
     public E save(E entity) {
@@ -30,18 +42,5 @@ public abstract class BaseRepository<T extends Serializable, E extends BaseEntit
     @Override
     public void update(E entity) {
         entityManager.merge(entity);
-    }
-
-    @Override
-    public Optional<E> findById(T id) {
-        return Optional.ofNullable(entityManager.find(clazz, id));
-    }
-
-    @Override
-    public List<E> findAll() {
-        var criteria = entityManager.getCriteriaBuilder().createQuery(clazz);
-        criteria.from(clazz);
-        return entityManager.createQuery(criteria)
-                .getResultList();
     }
 }

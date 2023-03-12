@@ -19,34 +19,34 @@ import java.time.LocalDateTime;
 public class TestDataImporter {
 
     public void importData(SessionFactory sessionFactory) {
-        @Cleanup Session session = sessionFactory.openSession();
+        @Cleanup var session = sessionFactory.openSession();
 
-        Category drama = saveCategory(session, "Drama");
-        Category horror = saveCategory(session, "Horror");
-        Category detective = saveCategory(session, "Detective");
+        var drama = saveCategory(session, "Drama");
+        var horror = saveCategory(session, "Horror");
+        var detective = saveCategory(session, "Detective");
 
-        Author stephanKing = saveAuthor(session, "Stephan King");
-        Author conanDoyle = saveAuthor(session, "Conan Doyle");
-        Author edgarAllanPoe = saveAuthor(session, "Edgar Allan Poe");
-        Author agathaChristie = saveAuthor(session, "Agatha Christie");
+        var stephanKing = saveAuthor(session, "Stephan King");
+        var conanDoyle = saveAuthor(session, "Conan Doyle");
+        var edgarAllanPoe = saveAuthor(session, "Edgar Allan Poe");
+        var agathaChristie = saveAuthor(session, "Agatha Christie");
 
-        Book deathOnTheNile = saveBook(session, "Death on the Nile", 1937,
+        var deathOnTheNile = saveBook(session, "Death on the Nile", 1937,
                 "description", 5, detective, agathaChristie);
-        Book thePrematureBurial = saveBook(session, "The Premature Burial", 1937,
+        var thePrematureBurial = saveBook(session, "The Premature Burial", 1937,
                 "description", 2, drama, edgarAllanPoe);
-        Book theMemoirsOfSherlockHolmes = saveBook(session, "The Memoirs of Sherlock Holmes", 1893,
+        var theMemoirsOfSherlockHolmes = saveBook(session, "The Memoirs of Sherlock Holmes", 1893,
                 "description", 7, detective, conanDoyle);
-        Book theShining = saveBook(session, "The Shining", 1977,
+        var theShining = saveBook(session, "The Shining", 1977,
                 "description", 8, horror, stephanKing);
 
-        User renata = saveUser(session, "Renata", "Yermak",
+        var renata = saveUser(session, "Renata", "Yermak",
                 "renatayermak@gmail.com", "1212", Role.ADMIN);
-        User alex = saveUser(session, "Alex", "Yermak",
+        var alex = saveUser(session, "Alex", "Yermak",
                 "alex@gmail.com", "3333", Role.USER);
-        User nikita = saveUser(session, "Nikita", "Shturo",
+        var nikita = saveUser(session, "Nikita", "Shturo",
                 "nikita@gmail.com", "2222", Role.USER);
-        User eva = saveUser(session, "Eva", "Shturo",
-                "eva@gmail.com", "1111", Role.USER);
+        var eva = saveUser(session, "Eva", "Shturo",
+                "eva@gmail.com", "1212", Role.USER);
 
         saveOrder(session, deathOnTheNile, renata, OrderStatus.RESERVED,
                 OrderType.SEASON_TICKET, LocalDateTime.now());
@@ -61,7 +61,7 @@ public class TestDataImporter {
     }
 
     private Category saveCategory(Session session, String name) {
-        Category category = Category.builder()
+        var category = Category.builder()
                 .name(name)
                 .build();
         session.save(category);
@@ -70,7 +70,7 @@ public class TestDataImporter {
     }
 
     private Author saveAuthor(Session session, String name) {
-        Author author = Author.builder()
+        var author = Author.builder()
                 .name(name)
                 .build();
         session.save(author);
@@ -85,7 +85,7 @@ public class TestDataImporter {
                           Integer number,
                           Category category,
                           Author author) {
-        Book book = Book.builder()
+        var book = Book.builder()
                 .title(title)
                 .author(author)
                 .publishYear(publishYear)
@@ -104,7 +104,7 @@ public class TestDataImporter {
                           String email,
                           String password,
                           Role role) {
-        User user = User.builder()
+        var user = User.builder()
                 .firstname(firstname)
                 .lastname(lastname)
                 .email(email)
@@ -122,7 +122,7 @@ public class TestDataImporter {
                             OrderStatus status,
                             OrderType type,
                             LocalDateTime orderedDate) {
-        Order order = Order.builder()
+        var order = Order.builder()
                 .book(book)
                 .user(user)
                 .status(status)

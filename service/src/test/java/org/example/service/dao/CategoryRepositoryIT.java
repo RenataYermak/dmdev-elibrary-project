@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CategoryRepositoryIT extends IntegrationTestBase {
 
@@ -44,12 +45,19 @@ public class CategoryRepositoryIT extends IntegrationTestBase {
     }
 
     @Test
-    void delete() {
+    void deleteExistCategory() {
         var categoryRepository = new CategoryRepository(session);
 
         categoryRepository.delete(1);
 
         assertThat(categoryRepository.findById(1)).isEmpty();
+    }
+
+    @Test
+    void deleteNotExistingCategory() {
+        var categoryRepository = new CategoryRepository(session);
+
+        assertThrows(IllegalArgumentException.class, () -> categoryRepository.delete(100500900));
     }
 
     @Test

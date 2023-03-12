@@ -9,14 +9,14 @@ import org.hibernate.cfg.Configuration;
 public class ConfigurationUtil {
 
     public static SessionFactory buildSessionFactory() {
-        Configuration configuration = buildConfiguration();
+        var configuration = buildConfiguration();
         configuration.configure();
 
         return configuration.buildSessionFactory();
     }
 
     public static Configuration buildConfiguration() {
-        Configuration configuration = new Configuration();
+        var configuration = new Configuration();
         configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
         return configuration;
     }

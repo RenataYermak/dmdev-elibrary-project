@@ -35,7 +35,7 @@ public class CategoryIT extends IntegrationTestBase {
         var expectedCategory = EntityTestUtil.getCategory();
         session.save(expectedCategory);
 
-        expectedCategory.setName("Horror");
+        expectedCategory.setName("Fantasy");
         session.update(expectedCategory);
         session.flush();
         session.clear();

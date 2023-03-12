@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BookRepositoryIT extends IntegrationTestBase {
 
@@ -52,12 +53,19 @@ class BookRepositoryIT extends IntegrationTestBase {
     }
 
     @Test
-    void delete() {
+    void deleteExistingBook() {
         var bookRepository = new BookRepository(session);
 
         bookRepository.delete(1L);
 
         assertThat(bookRepository.findById(1L)).isEmpty();
+    }
+
+    @Test
+    void deleteNotExistingBook() {
+        var bookRepository = new BookRepository(session);
+
+        assertThrows(IllegalArgumentException.class, () -> bookRepository.delete(100500900L));
     }
 
     @Test
