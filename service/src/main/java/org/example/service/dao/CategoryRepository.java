@@ -1,6 +1,5 @@
 package org.example.service.dao;
 
-
 import org.example.service.database.entity.Category;
 
 import javax.persistence.EntityManager;

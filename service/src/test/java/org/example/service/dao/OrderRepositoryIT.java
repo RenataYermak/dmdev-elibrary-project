@@ -1,11 +1,14 @@
 package org.example.service.dao;
 
 import org.example.service.database.entity.Order;
+import org.example.service.database.entity.OrderStatus;
 import org.example.service.database.entity.OrderType;
+import org.example.service.dto.OrderFilter;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,5 +90,53 @@ public class OrderRepositoryIT extends IntegrationTestBase {
 
         assertThat(actualOrder).isPresent();
         assertThat(actualOrder.get().getType()).isEqualTo(OrderType.READING_ROOM);
+    }
+
+    @Test
+    void findByFilterQueryDslWithAllParameters() {
+        var orderRepository = new OrderRepository(session);
+
+        OrderFilter filter = OrderFilter.builder()
+                .type(OrderType.READING_ROOM)
+                .status(OrderStatus.ORDERED)
+                .user("eva@gmail.com")
+                .book("The Premature Burial")
+                .orderedDate(LocalDateTime.of(2018,4,22,5,24))
+                .build();
+
+        List<Order> orders = orderRepository.findByFilterQueryDsl(filter);
+
+        assertNotNull(orders);
+        assertThat(orders).hasSize(1);
+        assertThat(orders.get(0).getId()).isEqualTo(4);
+    }
+
+    @Test
+    void findByFilterQueryDslWithTwoParameters() {
+        var orderRepository = new OrderRepository(session);
+
+        OrderFilter filter = OrderFilter.builder()
+                .type(OrderType.READING_ROOM)
+                .status(OrderStatus.ORDERED)
+                .build();
+
+        List<Order> orders = orderRepository.findByFilterQueryDsl(filter);
+
+        assertNotNull(orders);
+        assertThat(orders).hasSize(2);
+        assertThat(orders.get(0).getId()).isEqualTo(2);
+        assertThat(orders.get(1).getId()).isEqualTo(4);
+    }
+
+    @Test
+    void findByFilterQueryDslWithoutParameters() {
+        var orderRepository = new OrderRepository(session);
+
+        OrderFilter filter = OrderFilter.builder()
+                .build();
+
+        List<Order> orders = orderRepository.findByFilterQueryDsl(filter);
+
+        assertThat(orders).hasSize(orderRepository.findAll().size());
     }
 }

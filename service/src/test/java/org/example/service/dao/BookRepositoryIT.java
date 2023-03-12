@@ -1,6 +1,7 @@
 package org.example.service.dao;
 
 import org.example.service.database.entity.Book;
+import org.example.service.dto.BookFilter;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
@@ -80,5 +81,51 @@ class BookRepositoryIT extends IntegrationTestBase {
 
         assertThat(actualBook).isPresent();
         assertThat(actualBook.get().getTitle()).isEqualTo("New Title");
+    }
+
+    @Test
+    void findByFilterQueryDslWithAllParameters() {
+        var bookRepository = new BookRepository(session);
+
+        BookFilter filter = BookFilter.builder()
+                .publishYear(1937)
+                .category("Detective")
+                .author("Agatha Christie")
+                .build();
+
+        List<Book> books = bookRepository.findByFilterQueryDsl(filter);
+
+        assertNotNull(books);
+        assertThat(books).hasSize(1);
+        assertThat(books.get(0).getId()).isEqualTo(1);
+    }
+
+    @Test
+    void findByFilterQueryDslWithTwoParameters() {
+        var bookRepository = new BookRepository(session);
+
+        BookFilter filter = BookFilter.builder()
+                .publishYear(1937)
+                .category("Detective")
+                .build();
+
+        List<Book> books = bookRepository.findByFilterQueryDsl(filter);
+
+        assertNotNull(books);
+        assertThat(books).hasSize(2);
+        assertThat(books.get(0).getId()).isEqualTo(1);
+        assertThat(books.get(1).getId()).isEqualTo(4);
+    }
+
+    @Test
+    void findByFilterQueryDslWithoutParameters() {
+        var bookRepository = new BookRepository(session);
+
+        BookFilter filter = BookFilter.builder()
+                .build();
+
+        List<Book> books = bookRepository.findByFilterQueryDsl(filter);
+
+        assertThat(books).hasSize(bookRepository.findAll().size());
     }
 }

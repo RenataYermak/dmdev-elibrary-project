@@ -1,6 +1,8 @@
 package org.example.service.dao;
 
+import org.example.service.database.entity.Role;
 import org.example.service.database.entity.User;
+import org.example.service.dto.UserFilter;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
@@ -44,14 +46,6 @@ public class UserRepositoryIT extends IntegrationTestBase {
         assertThat(actualUser).isNotNull();
     }
 
-    //    @Test
-//    void delete() {
-//        var userRepository = new UserRepository(session);
-//
-//        userRepository.delete(1L);
-//
-//        assertThat(userRepository.findById(1L)).isEmpty();
-//    }
     @Test
     void deleteExistingUser() {
         var userRepository = new UserRepository(session);
@@ -105,5 +99,53 @@ public class UserRepositoryIT extends IntegrationTestBase {
         List<User> users = userRepository.findAllByEmailAndPassword(email, password);
 
         assertThat(users).hasSize(0);
+    }
+
+    @Test
+    void findUsersByQueryWithAllParameters() {
+        var userRepository = new UserRepository(session);
+
+        UserFilter filter = UserFilter.builder()
+                .email("alex@gmail.com")
+                .firstname("Alex")
+                .lastname("Yermak")
+                .role(Role.USER)
+                .build();
+
+        List<User> users = userRepository.findUsersByQuery(filter);
+
+        assertNotNull(users);
+        assertThat(users).hasSize(1);
+        assertThat(users.get(0).getId()).isEqualTo(2);
+    }
+
+    @Test
+    void findUsersByQueryWithOneParameters() {
+        var userRepository = new UserRepository(session);
+
+        UserFilter filter = UserFilter.builder()
+                .role(Role.USER)
+                .build();
+
+        List<User> users = userRepository.findUsersByQuery(filter);
+
+        assertNotNull(users);
+        assertThat(users).hasSize(3);
+        assertThat(users.get(0).getId()).isEqualTo(2);
+        assertThat(users.get(1).getId()).isEqualTo(3);
+        assertThat(users.get(2).getId()).isEqualTo(4);
+    }
+
+    @Test
+    void findUsersByQueryWithoutParameters() {
+        var userRepository = new UserRepository(session);
+
+        UserFilter filter = UserFilter.builder()
+                .build();
+
+        List<User> users = userRepository.findUsersByQuery(filter);
+
+        assertNotNull(users);
+        assertThat(users).hasSize(userRepository.findAll().size());
     }
 }

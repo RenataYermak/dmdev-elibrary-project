@@ -19,8 +19,7 @@ public class UserRepository extends BaseRepository<Long, User> {
         return new JPAQuery<User>(entityManager)
                 .select(user)
                 .from(user)
-                .where(user.email.eq(email))
-                .where(user.password.eq(password))
+                .where(user.email.eq(email).and(user.password.eq(password)))
                 .fetch();
     }
 
@@ -29,6 +28,7 @@ public class UserRepository extends BaseRepository<Long, User> {
                 .add(filter.getFirstname(), user.firstname::eq)
                 .add(filter.getLastname(), user.lastname::eq)
                 .add(filter.getEmail(), user.email::eq)
+                .add(filter.getRole(), user.role::eq)
                 .buildAnd();
 
         return new JPAQuery<User>(entityManager)

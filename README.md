@@ -1,7 +1,7 @@
 ## **Task**
 
-1. Write a filter query using Querydsl and Criteria. Optimize them with EntityGraph.
-2. Write integration tests to test these requests.
+1. Implement DAO for all your entities
+2. Write tests for DAO
 ### **Library**
 
 The reader has the opportunity to develop the search and order Books in the Catalog. The librarian gives the Reader a

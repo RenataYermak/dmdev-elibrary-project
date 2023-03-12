@@ -32,12 +32,12 @@ public class TestDataImporter {
 
         var deathOnTheNile = saveBook(session, "Death on the Nile", 1937,
                 "description", 5, detective, agathaChristie);
-        var thePrematureBurial = saveBook(session, "The Premature Burial", 1937,
+        var thePrematureBurial = saveBook(session, "The Premature Burial", 1977,
                 "description", 2, drama, edgarAllanPoe);
         var theMemoirsOfSherlockHolmes = saveBook(session, "The Memoirs of Sherlock Holmes", 1893,
-                "description", 7, detective, conanDoyle);
-        var theShining = saveBook(session, "The Shining", 1977,
-                "description", 8, horror, stephanKing);
+                "description", 7, horror, conanDoyle);
+        var theShining = saveBook(session, "The Shining", 1937,
+                "description", 8, detective, stephanKing);
 
         var renata = saveUser(session, "Renata", "Yermak",
                 "renatayermak@gmail.com", "1212", Role.ADMIN);
@@ -49,15 +49,15 @@ public class TestDataImporter {
                 "eva@gmail.com", "1212", Role.USER);
 
         saveOrder(session, deathOnTheNile, renata, OrderStatus.RESERVED,
-                OrderType.SEASON_TICKET, LocalDateTime.now());
+                OrderType.SEASON_TICKET, LocalDateTime.of(2023,1,10,8,54));
         saveOrder(session, theShining, renata, OrderStatus.ORDERED,
-                OrderType.READING_ROOM, LocalDateTime.now());
+                OrderType.READING_ROOM,  LocalDateTime.of(2023,3,4,6,39));
         saveOrder(session, deathOnTheNile, alex, OrderStatus.RETURNED,
-                OrderType.SEASON_TICKET, LocalDateTime.now());
+                OrderType.SEASON_TICKET,  LocalDateTime.of(2013,4,23,13,40));
         saveOrder(session, thePrematureBurial, eva, OrderStatus.ORDERED,
-                OrderType.READING_ROOM, LocalDateTime.now());
+                OrderType.READING_ROOM,  LocalDateTime.of(2018,4,22,5,24));
         saveOrder(session, theMemoirsOfSherlockHolmes, nikita, OrderStatus.REJECTED,
-                OrderType.READING_ROOM, LocalDateTime.now());
+                OrderType.READING_ROOM,  LocalDateTime.of(2019,8,12,17,34));
     }
 
     private Category saveCategory(Session session, String name) {

@@ -1,10 +1,10 @@
 package org.example.service.dao;
 
 import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Predicate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import com.querydsl.core.types.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
