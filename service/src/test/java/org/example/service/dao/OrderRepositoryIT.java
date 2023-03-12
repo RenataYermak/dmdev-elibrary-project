@@ -1,6 +1,5 @@
 package org.example.service.dao;
 
-import org.example.service.database.entity.Order;
 import org.example.service.database.entity.OrderStatus;
 import org.example.service.database.entity.OrderType;
 import org.example.service.dto.OrderFilter;
@@ -9,8 +8,6 @@ import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,7 +19,7 @@ public class OrderRepositoryIT extends IntegrationTestBase {
     void findById() {
         var orderRepository = new OrderRepository(session);
 
-        Optional<Order> actualOrder = orderRepository.findById(1L);
+        var actualOrder = orderRepository.findById(1L);
 
         assertThat(actualOrder).isPresent();
         assertThat(actualOrder.get().getType()).isEqualTo(OrderType.SEASON_TICKET);
@@ -32,7 +29,7 @@ public class OrderRepositoryIT extends IntegrationTestBase {
     void findAll() {
         var orderRepository = new OrderRepository(session);
 
-        List<Order> orders = orderRepository.findAll();
+        var orders = orderRepository.findAll();
 
         assertNotNull(orders);
         assertThat(orders).hasSize(5);
@@ -86,7 +83,7 @@ public class OrderRepositoryIT extends IntegrationTestBase {
         expectedOrder.setType(OrderType.READING_ROOM);
         orderRepository.update(expectedOrder);
 
-        Optional<Order> actualOrder = orderRepository.findById(1L);
+        var actualOrder = orderRepository.findById(1L);
 
         assertThat(actualOrder).isPresent();
         assertThat(actualOrder.get().getType()).isEqualTo(OrderType.READING_ROOM);
@@ -96,15 +93,15 @@ public class OrderRepositoryIT extends IntegrationTestBase {
     void findByFilterQueryDslWithAllParameters() {
         var orderRepository = new OrderRepository(session);
 
-        OrderFilter filter = OrderFilter.builder()
+        var filter = OrderFilter.builder()
                 .type(OrderType.READING_ROOM)
                 .status(OrderStatus.ORDERED)
                 .user("eva@gmail.com")
                 .book("The Premature Burial")
-                .orderedDate(LocalDateTime.of(2018,4,22,5,24))
+                .orderedDate(LocalDateTime.of(2018, 4, 22, 5, 24))
                 .build();
 
-        List<Order> orders = orderRepository.findByFilterQueryDsl(filter);
+        var orders = orderRepository.findByFilterQueryDsl(filter);
 
         assertNotNull(orders);
         assertThat(orders).hasSize(1);
@@ -115,12 +112,12 @@ public class OrderRepositoryIT extends IntegrationTestBase {
     void findByFilterQueryDslWithTwoParameters() {
         var orderRepository = new OrderRepository(session);
 
-        OrderFilter filter = OrderFilter.builder()
+        var filter = OrderFilter.builder()
                 .type(OrderType.READING_ROOM)
                 .status(OrderStatus.ORDERED)
                 .build();
 
-        List<Order> orders = orderRepository.findByFilterQueryDsl(filter);
+        var orders = orderRepository.findByFilterQueryDsl(filter);
 
         assertNotNull(orders);
         assertThat(orders).hasSize(2);
@@ -132,10 +129,10 @@ public class OrderRepositoryIT extends IntegrationTestBase {
     void findByFilterQueryDslWithoutParameters() {
         var orderRepository = new OrderRepository(session);
 
-        OrderFilter filter = OrderFilter.builder()
+        var filter = OrderFilter.builder()
                 .build();
 
-        List<Order> orders = orderRepository.findByFilterQueryDsl(filter);
+        var orders = orderRepository.findByFilterQueryDsl(filter);
 
         assertThat(orders).hasSize(orderRepository.findAll().size());
     }

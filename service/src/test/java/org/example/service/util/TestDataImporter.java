@@ -49,15 +49,15 @@ public class TestDataImporter {
                 "eva@gmail.com", "1212", Role.USER);
 
         saveOrder(session, deathOnTheNile, renata, OrderStatus.RESERVED,
-                OrderType.SEASON_TICKET, LocalDateTime.of(2023,1,10,8,54));
+                OrderType.SEASON_TICKET, LocalDateTime.of(2023, 1, 10, 8, 54));
         saveOrder(session, theShining, renata, OrderStatus.ORDERED,
-                OrderType.READING_ROOM,  LocalDateTime.of(2023,3,4,6,39));
+                OrderType.READING_ROOM, LocalDateTime.of(2023, 3, 4, 6, 39));
         saveOrder(session, deathOnTheNile, alex, OrderStatus.RETURNED,
-                OrderType.SEASON_TICKET,  LocalDateTime.of(2013,4,23,13,40));
+                OrderType.SEASON_TICKET, LocalDateTime.of(2013, 4, 23, 13, 40));
         saveOrder(session, thePrematureBurial, eva, OrderStatus.ORDERED,
-                OrderType.READING_ROOM,  LocalDateTime.of(2018,4,22,5,24));
+                OrderType.READING_ROOM, LocalDateTime.of(2018, 4, 22, 5, 24));
         saveOrder(session, theMemoirsOfSherlockHolmes, nikita, OrderStatus.REJECTED,
-                OrderType.READING_ROOM,  LocalDateTime.of(2019,8,12,17,34));
+                OrderType.READING_ROOM, LocalDateTime.of(2019, 8, 12, 17, 34));
     }
 
     private Category saveCategory(Session session, String name) {

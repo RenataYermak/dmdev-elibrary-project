@@ -34,13 +34,4 @@ public class OrderRepository extends BaseRepository<Long, Order> {
                 .where(predicate)
                 .fetch();
     }
-//    public List<Order> returnBook (Long id) {
-//        return new JPAQuery<Order>(entityManager)
-//                .select(order)
-//                .from(order)
-//                .where(order.id.eq(id))
-//                .set(order.status, OrderStatus.RETURNED)
-//                .set(order.returnedDate, LocalDateTime.now())
-//                .fetch();
-  //  }
 }

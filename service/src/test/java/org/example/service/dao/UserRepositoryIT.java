@@ -1,14 +1,10 @@
 package org.example.service.dao;
 
 import org.example.service.database.entity.Role;
-import org.example.service.database.entity.User;
 import org.example.service.dto.UserFilter;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,7 +16,7 @@ public class UserRepositoryIT extends IntegrationTestBase {
     void findById() {
         var userRepository = new UserRepository(session);
 
-        Optional<User> actualUser = userRepository.findById(1L);
+        var actualUser = userRepository.findById(1L);
 
         assertThat(actualUser).isPresent();
         assertThat(actualUser.get().getEmail()).isEqualTo("renatayermak@gmail.com");
@@ -30,7 +26,7 @@ public class UserRepositoryIT extends IntegrationTestBase {
     void findAll() {
         var userRepository = new UserRepository(session);
 
-        List<User> users = userRepository.findAll();
+        var users = userRepository.findAll();
 
         assertNotNull(users);
         assertThat(users).hasSize(4);
@@ -70,7 +66,7 @@ public class UserRepositoryIT extends IntegrationTestBase {
         expectedUser.setEmail("newemail@gmail.com");
         userRepository.update(expectedUser);
 
-        Optional<User> actualUser = userRepository.findById(1L);
+        var actualUser = userRepository.findById(1L);
 
         assertThat(actualUser).isPresent();
         assertThat(actualUser.get().getEmail()).isEqualTo("newemail@gmail.com");
@@ -80,10 +76,10 @@ public class UserRepositoryIT extends IntegrationTestBase {
     void findExistUserByEmailAndPassword() {
         var userRepository = new UserRepository(session);
 
-        String email = "renatayermak@gmail.com";
-        String password = "1212";
+        var email = "renatayermak@gmail.com";
+        var password = "1212";
 
-        List<User> users = userRepository.findAllByEmailAndPassword(email, password);
+        var users = userRepository.findAllByEmailAndPassword(email, password);
 
         assertNotNull(users);
         assertThat(users).hasSize(1);
@@ -94,9 +90,9 @@ public class UserRepositoryIT extends IntegrationTestBase {
     void findNotExistUserByEmailAndPassword() {
         var userRepository = new UserRepository(session);
 
-        String email = "yermakrenata@gmail.com";
-        String password = "1313";
-        List<User> users = userRepository.findAllByEmailAndPassword(email, password);
+        var email = "yermakrenata@gmail.com";
+        var password = "1313";
+        var users = userRepository.findAllByEmailAndPassword(email, password);
 
         assertThat(users).hasSize(0);
     }
@@ -105,14 +101,14 @@ public class UserRepositoryIT extends IntegrationTestBase {
     void findUsersByQueryWithAllParameters() {
         var userRepository = new UserRepository(session);
 
-        UserFilter filter = UserFilter.builder()
+        var filter = UserFilter.builder()
                 .email("alex@gmail.com")
                 .firstname("Alex")
                 .lastname("Yermak")
                 .role(Role.USER)
                 .build();
 
-        List<User> users = userRepository.findUsersByQuery(filter);
+        var users = userRepository.findUsersByQuery(filter);
 
         assertNotNull(users);
         assertThat(users).hasSize(1);
@@ -123,11 +119,11 @@ public class UserRepositoryIT extends IntegrationTestBase {
     void findUsersByQueryWithOneParameters() {
         var userRepository = new UserRepository(session);
 
-        UserFilter filter = UserFilter.builder()
+        var filter = UserFilter.builder()
                 .role(Role.USER)
                 .build();
 
-        List<User> users = userRepository.findUsersByQuery(filter);
+        var users = userRepository.findUsersByQuery(filter);
 
         assertNotNull(users);
         assertThat(users).hasSize(3);
@@ -140,10 +136,10 @@ public class UserRepositoryIT extends IntegrationTestBase {
     void findUsersByQueryWithoutParameters() {
         var userRepository = new UserRepository(session);
 
-        UserFilter filter = UserFilter.builder()
+        var filter = UserFilter.builder()
                 .build();
 
-        List<User> users = userRepository.findUsersByQuery(filter);
+        var users = userRepository.findUsersByQuery(filter);
 
         assertNotNull(users);
         assertThat(users).hasSize(userRepository.findAll().size());

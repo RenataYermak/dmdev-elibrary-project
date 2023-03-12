@@ -1,13 +1,9 @@
 package org.example.service.dao;
 
-import org.example.service.database.entity.Book;
 import org.example.service.dto.BookFilter;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -19,7 +15,7 @@ class BookRepositoryIT extends IntegrationTestBase {
     void findById() {
         var bookRepository = new BookRepository(session);
 
-        Optional<Book> actualBook = bookRepository.findById(1L);
+        var actualBook = bookRepository.findById(1L);
 
         assertThat(actualBook).isPresent();
         assertThat(actualBook.get().getTitle()).isEqualTo("Death on the Nile");
@@ -29,7 +25,7 @@ class BookRepositoryIT extends IntegrationTestBase {
     void findAll() {
         var bookRepository = new BookRepository(session);
 
-        List<Book> books = bookRepository.findAll();
+        var books = bookRepository.findAll();
 
         assertNotNull(books);
         assertThat(books).hasSize(4);
@@ -77,7 +73,7 @@ class BookRepositoryIT extends IntegrationTestBase {
         expectedBook.setTitle("New Title");
         bookRepository.update(expectedBook);
 
-        Optional<Book> actualBook = bookRepository.findById(1L);
+        var actualBook = bookRepository.findById(1L);
 
         assertThat(actualBook).isPresent();
         assertThat(actualBook.get().getTitle()).isEqualTo("New Title");
@@ -87,13 +83,13 @@ class BookRepositoryIT extends IntegrationTestBase {
     void findByFilterQueryDslWithAllParameters() {
         var bookRepository = new BookRepository(session);
 
-        BookFilter filter = BookFilter.builder()
+        var filter = BookFilter.builder()
                 .publishYear(1937)
                 .category("Detective")
                 .author("Agatha Christie")
                 .build();
 
-        List<Book> books = bookRepository.findByFilterQueryDsl(filter);
+        var books = bookRepository.findByFilterQueryDsl(filter);
 
         assertNotNull(books);
         assertThat(books).hasSize(1);
@@ -104,12 +100,12 @@ class BookRepositoryIT extends IntegrationTestBase {
     void findByFilterQueryDslWithTwoParameters() {
         var bookRepository = new BookRepository(session);
 
-        BookFilter filter = BookFilter.builder()
+        var filter = BookFilter.builder()
                 .publishYear(1937)
                 .category("Detective")
                 .build();
 
-        List<Book> books = bookRepository.findByFilterQueryDsl(filter);
+        var books = bookRepository.findByFilterQueryDsl(filter);
 
         assertNotNull(books);
         assertThat(books).hasSize(2);
@@ -121,10 +117,10 @@ class BookRepositoryIT extends IntegrationTestBase {
     void findByFilterQueryDslWithoutParameters() {
         var bookRepository = new BookRepository(session);
 
-        BookFilter filter = BookFilter.builder()
+        var filter = BookFilter.builder()
                 .build();
 
-        List<Book> books = bookRepository.findByFilterQueryDsl(filter);
+        var books = bookRepository.findByFilterQueryDsl(filter);
 
         assertThat(books).hasSize(bookRepository.findAll().size());
     }

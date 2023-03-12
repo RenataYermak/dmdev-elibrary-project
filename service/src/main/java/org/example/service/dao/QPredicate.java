@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import com.querydsl.core.types.Predicate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;

@@ -1,12 +1,8 @@
 package org.example.service.dao;
 
-import org.example.service.database.entity.Category;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -18,7 +14,7 @@ public class CategoryRepositoryIT extends IntegrationTestBase {
     void findById() {
         var categoryRepository = new CategoryRepository(session);
 
-        Optional<Category> actualCategory = categoryRepository.findById(1);
+        var actualCategory = categoryRepository.findById(1);
 
         assertThat(actualCategory).isPresent();
         assertThat(actualCategory.get().getName()).isEqualTo("Drama");
@@ -28,7 +24,7 @@ public class CategoryRepositoryIT extends IntegrationTestBase {
     void findAll() {
         var categoryRepository = new CategoryRepository(session);
 
-        List<Category> categories = categoryRepository.findAll();
+        var categories = categoryRepository.findAll();
 
         assertNotNull(categories);
         assertThat(categories).hasSize(3);
@@ -68,7 +64,7 @@ public class CategoryRepositoryIT extends IntegrationTestBase {
         expectedCategory.setName("Science");
         categoryRepository.update(expectedCategory);
 
-        Optional<Category> actualCategory = categoryRepository.findById(1);
+        var actualCategory = categoryRepository.findById(1);
 
         assertThat(actualCategory).isPresent();
         assertThat(actualCategory.get().getName()).isEqualTo("Science");
