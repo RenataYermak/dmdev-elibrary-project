@@ -14,41 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class UserRepositoryIT extends IntegrationTestBase {
 
     @Test
-    void save() {
-        User user = EntityTestUtil.getUser();
-        UserRepository userRepository = new UserRepository(session);
-
-        User actualUser = userRepository.save(user);
-
-        assertThat(actualUser).isNotNull();
-    }
-
-    @Test
-    void delete() {
-        UserRepository userRepository = new UserRepository(session);
-
-        userRepository.delete(1L);
-
-        assertThat(userRepository.findById(1L)).isEmpty();
-    }
-
-    @Test
-    void update() {
-        UserRepository userRepository = new UserRepository(session);
-
-        User expectedUser = userRepository.findById(1L).get();
-        expectedUser.setEmail("newemail@gmail.com");
-        userRepository.update(expectedUser);
-
-        Optional<User> actualUser = userRepository.findById(1L);
-
-        assertThat(actualUser).isPresent();
-        assertThat(actualUser.get().getEmail()).isEqualTo("newemail@gmail.com");
-    }
-
-    @Test
     void findById() {
-        UserRepository userRepository = new UserRepository(session);
+        var userRepository = new UserRepository(session);
 
         Optional<User> actualUser = userRepository.findById(1L);
 
@@ -58,11 +25,44 @@ public class UserRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findAll() {
-        UserRepository userRepository = new UserRepository(session);
+        var userRepository = new UserRepository(session);
 
         List<User> users = userRepository.findAll();
 
         assertNotNull(users);
         assertThat(users).hasSize(4);
+    }
+
+    @Test
+    void save() {
+        var user = EntityTestUtil.getUser();
+        var userRepository = new UserRepository(session);
+
+        var actualUser = userRepository.save(user);
+
+        assertThat(actualUser).isNotNull();
+    }
+
+    @Test
+    void delete() {
+        var userRepository = new UserRepository(session);
+
+        userRepository.delete(1L);
+
+        assertThat(userRepository.findById(1L)).isEmpty();
+    }
+
+    @Test
+    void update() {
+        var userRepository = new UserRepository(session);
+
+        var expectedUser = userRepository.findById(1L).get();
+        expectedUser.setEmail("newemail@gmail.com");
+        userRepository.update(expectedUser);
+
+        Optional<User> actualUser = userRepository.findById(1L);
+
+        assertThat(actualUser).isPresent();
+        assertThat(actualUser.get().getEmail()).isEqualTo("newemail@gmail.com");
     }
 }
