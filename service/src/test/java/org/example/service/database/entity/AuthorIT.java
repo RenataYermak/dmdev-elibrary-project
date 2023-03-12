@@ -1,16 +1,16 @@
 package org.example.service.database.entity;
 
 import org.example.service.integration.IntegrationTestBase;
+import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.example.service.util.EntityTestUtil.getAuthor;
 
 public class AuthorIT extends IntegrationTestBase {
 
     @Test
     void saveAuthor() {
-        var author = getAuthor();
+        var author = EntityTestUtil.getAuthor();
         session.save(author);
 
         session.clear();
@@ -20,7 +20,7 @@ public class AuthorIT extends IntegrationTestBase {
 
     @Test
     void getAuthorById() {
-        var expectedAuthor = getAuthor();
+        var expectedAuthor = EntityTestUtil.getAuthor();
         session.save(expectedAuthor);
 
         session.clear();
@@ -32,7 +32,7 @@ public class AuthorIT extends IntegrationTestBase {
 
     @Test
     void updateAuthor() {
-        var expectedAuthor = getAuthor();
+        var expectedAuthor = EntityTestUtil.getAuthor();
         session.save(expectedAuthor);
 
         expectedAuthor.setName("Stephen King");
@@ -47,7 +47,7 @@ public class AuthorIT extends IntegrationTestBase {
 
     @Test
     void deleteAuthor() {
-        var author = getAuthor();
+        var author = EntityTestUtil.getAuthor();
         session.save(author);
 
         session.delete(author);

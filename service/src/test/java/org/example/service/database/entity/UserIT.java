@@ -1,16 +1,16 @@
 package org.example.service.database.entity;
 
 import org.example.service.integration.IntegrationTestBase;
+import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.example.service.util.EntityTestUtil.getUser;
 
 public class UserIT extends IntegrationTestBase {
 
     @Test
     void saveUser() {
-        var user = getUser();
+        var user = EntityTestUtil.getUser();
         session.save(user);
         session.clear();
 
@@ -19,7 +19,7 @@ public class UserIT extends IntegrationTestBase {
 
     @Test
     void getUserById() {
-        var expectedUser = getUser();
+        var expectedUser = EntityTestUtil.getUser();
         session.save(expectedUser);
         session.clear();
 
@@ -30,7 +30,7 @@ public class UserIT extends IntegrationTestBase {
 
     @Test
     void updateUser() {
-        var expectedUser = getUser();
+        var expectedUser = EntityTestUtil.getUser();
         session.save(expectedUser);
 
         expectedUser.setFirstname("Alex");
@@ -45,7 +45,7 @@ public class UserIT extends IntegrationTestBase {
 
     @Test
     void deleteUser() {
-        var user = getUser();
+        var user = EntityTestUtil.getUser();
         session.save(user);
 
         session.delete(user);

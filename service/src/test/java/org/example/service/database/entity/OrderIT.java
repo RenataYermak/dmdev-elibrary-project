@@ -1,23 +1,19 @@
 package org.example.service.database.entity;
 
 import org.example.service.integration.IntegrationTestBase;
+import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.example.service.util.EntityTestUtil.getAuthor;
-import static org.example.service.util.EntityTestUtil.getBook;
-import static org.example.service.util.EntityTestUtil.getCategory;
-import static org.example.service.util.EntityTestUtil.getOrder;
-import static org.example.service.util.EntityTestUtil.getUser;
 
 public class OrderIT extends IntegrationTestBase {
     @Test
     void saveBook() {
-        var category = getCategory();
-        var author = getAuthor();
-        var book = getBook(category, author);
-        var user = getUser();
-        var order = getOrder(book, user);
+        var category = EntityTestUtil.getCategory();
+        var author = EntityTestUtil.getAuthor();
+        var book = EntityTestUtil.getBook(category, author);
+        var user = EntityTestUtil.getUser();
+        var order = EntityTestUtil.getOrder(book, user);
 
         session.save(category);
         session.save(author);
@@ -32,11 +28,11 @@ public class OrderIT extends IntegrationTestBase {
 
     @Test
     void getBookById() {
-        var category = getCategory();
-        var author = getAuthor();
-        var book = getBook(category, author);
-        var user = getUser();
-        var expectedOrder = getOrder(book, user);
+        var category = EntityTestUtil.getCategory();
+        var author = EntityTestUtil.getAuthor();
+        var book = EntityTestUtil.getBook(category, author);
+        var user = EntityTestUtil.getUser();
+        var expectedOrder = EntityTestUtil.getOrder(book, user);
 
         session.save(category);
         session.save(author);
@@ -53,11 +49,11 @@ public class OrderIT extends IntegrationTestBase {
 
     @Test
     void updateBook() {
-        var category = getCategory();
-        var author = getAuthor();
-        var book = getBook(category, author);
-        var user = getUser();
-        var expectedOrder = getOrder(book, user);
+        var category = EntityTestUtil.getCategory();
+        var author = EntityTestUtil.getAuthor();
+        var book = EntityTestUtil.getBook(category, author);
+        var user = EntityTestUtil.getUser();
+        var expectedOrder = EntityTestUtil.getOrder(book, user);
 
         session.save(category);
         session.save(author);
@@ -77,11 +73,11 @@ public class OrderIT extends IntegrationTestBase {
 
     @Test
     void deleteBook() {
-        var category = getCategory();
-        var author = getAuthor();
-        var book = getBook(category, author);
-        var user = getUser();
-        var order = getOrder(book, user);
+        var category = EntityTestUtil.getCategory();
+        var author = EntityTestUtil.getAuthor();
+        var book = EntityTestUtil.getBook(category, author);
+        var user = EntityTestUtil.getUser();
+        var order = EntityTestUtil.getOrder(book, user);
 
         session.save(category);
         session.save(author);

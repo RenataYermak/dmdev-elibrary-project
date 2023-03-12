@@ -1,16 +1,16 @@
 package org.example.service.database.entity;
 
 import org.example.service.integration.IntegrationTestBase;
+import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.example.service.util.EntityTestUtil.getCategory;
 
 public class CategoryIT extends IntegrationTestBase {
 
     @Test
     void saveCategory() {
-        var category = getCategory();
+        var category = EntityTestUtil.getCategory();
         session.save(category);
 
         session.clear();
@@ -20,7 +20,7 @@ public class CategoryIT extends IntegrationTestBase {
 
     @Test
     void getCategoryById() {
-        var expectedCategory = getCategory();
+        var expectedCategory = EntityTestUtil.getCategory();
         session.save(expectedCategory);
 
         session.clear();
@@ -32,7 +32,7 @@ public class CategoryIT extends IntegrationTestBase {
 
     @Test
     void updateCategory() {
-        var expectedCategory = getCategory();
+        var expectedCategory = EntityTestUtil.getCategory();
         session.save(expectedCategory);
 
         expectedCategory.setName("Horror");
@@ -47,7 +47,7 @@ public class CategoryIT extends IntegrationTestBase {
 
     @Test
     void deleteCategory() {
-        var category = getCategory();
+        var category = EntityTestUtil.getCategory();
         session.save(category);
 
         session.delete(category);

@@ -40,7 +40,7 @@ public class TestDataImporter {
                 "description", 8, horror, stephanKing);
 
         User renata = saveUser(session, "Renata", "Yermak",
-                "renata@gmail.com", "1212", Role.ADMIN);
+                "renatayermak@gmail.com", "1212", Role.ADMIN);
         User alex = saveUser(session, "Alex", "Yermak",
                 "alex@gmail.com", "3333", Role.USER);
         User nikita = saveUser(session, "Nikita", "Shturo",
@@ -48,13 +48,15 @@ public class TestDataImporter {
         User eva = saveUser(session, "Eva", "Shturo",
                 "eva@gmail.com", "1111", Role.USER);
 
-        saveOrder(session, deathOnTheNile, renata, OrderStatus.ORDERED,
-                OrderType.READING_ROOM, LocalDateTime.now());
+        saveOrder(session, deathOnTheNile, renata, OrderStatus.RESERVED,
+                OrderType.SEASON_TICKET, LocalDateTime.now());
         saveOrder(session, theShining, renata, OrderStatus.ORDERED,
                 OrderType.READING_ROOM, LocalDateTime.now());
-        saveOrder(session, deathOnTheNile, alex, OrderStatus.ORDERED,
-                OrderType.READING_ROOM, LocalDateTime.now());
+        saveOrder(session, deathOnTheNile, alex, OrderStatus.RETURNED,
+                OrderType.SEASON_TICKET, LocalDateTime.now());
         saveOrder(session, thePrematureBurial, eva, OrderStatus.ORDERED,
+                OrderType.READING_ROOM, LocalDateTime.now());
+        saveOrder(session, theMemoirsOfSherlockHolmes, nikita, OrderStatus.REJECTED,
                 OrderType.READING_ROOM, LocalDateTime.now());
     }
 
