@@ -11,8 +11,8 @@ import static org.example.service.database.entity.QUser.user;
 
 public class UserRepository extends BaseRepository<Long, User> {
 
-    public UserRepository(EntityManager entityManager) {
-        super(User.class, entityManager);
+    public UserRepository(Class<User> clazz, EntityManager entityManager) {
+        super(clazz, entityManager);
     }
 
     public List<User> findAllByEmailAndPassword(String email, String password) {

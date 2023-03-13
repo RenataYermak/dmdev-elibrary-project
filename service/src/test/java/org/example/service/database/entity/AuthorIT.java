@@ -13,9 +13,7 @@ public class AuthorIT extends IntegrationTestBase {
         var author = EntityTestUtil.getAuthor();
         session.save(author);
 
-        session.clear();
-
-        assertThat(author).isNotNull();
+        assertThat(author.getId()).isNotNull();
     }
 
     @Test

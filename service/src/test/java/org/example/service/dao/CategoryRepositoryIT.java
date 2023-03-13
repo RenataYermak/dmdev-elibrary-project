@@ -1,20 +1,21 @@
 package org.example.service.dao;
 
+import org.example.service.database.entity.Category;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CategoryRepositoryIT extends IntegrationTestBase {
 
+    CategoryRepository categoryRepository = new CategoryRepository(Category.class, session);
+
     @Test
     void findById() {
-        var categoryRepository = new CategoryRepository(session);
-
         var actualCategory = categoryRepository.findById(1);
+        session.clear();
 
         assertThat(actualCategory).isPresent();
         assertThat(actualCategory.get().getName()).isEqualTo("Drama");
@@ -22,9 +23,8 @@ public class CategoryRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findAll() {
-        var categoryRepository = new CategoryRepository(session);
-
         var categories = categoryRepository.findAll();
+        session.clear();
 
         assertNotNull(categories);
         assertThat(categories).hasSize(3);
@@ -33,36 +33,31 @@ public class CategoryRepositoryIT extends IntegrationTestBase {
     @Test
     void save() {
         var category = EntityTestUtil.getCategory();
-        var categoryRepository = new CategoryRepository(session);
 
         var actualCategory = categoryRepository.save(category);
 
-        assertThat(actualCategory).isNotNull();
+        assertThat(actualCategory.getId()).isNotNull();
     }
 
     @Test
-    void deleteExistCategory() {
-        var categoryRepository = new CategoryRepository(session);
+    void delete() {
+        var category = EntityTestUtil.getCategory();
+        categoryRepository.save(category);
 
-        categoryRepository.delete(1);
+        categoryRepository.delete(category);
+        session.clear();
 
-        assertThat(categoryRepository.findById(1)).isEmpty();
-    }
+        var deletedCategory = categoryRepository.findById(category.getId());
 
-    @Test
-    void deleteNotExistingCategory() {
-        var categoryRepository = new CategoryRepository(session);
-
-        assertThrows(IllegalArgumentException.class, () -> categoryRepository.delete(100500900));
+        assertThat(deletedCategory).isEmpty();
     }
 
     @Test
     void update() {
-        var categoryRepository = new CategoryRepository(session);
-
         var expectedCategory = categoryRepository.findById(1).get();
         expectedCategory.setName("Science");
         categoryRepository.update(expectedCategory);
+        session.clear();
 
         var actualCategory = categoryRepository.findById(1);
 

@@ -12,7 +12,6 @@ public class UserIT extends IntegrationTestBase {
     void saveUser() {
         var user = EntityTestUtil.getUser();
         session.save(user);
-        session.clear();
 
         assertThat(user.getId()).isNotNull();
     }

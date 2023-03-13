@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 
 public class AuthorRepository extends BaseRepository<Long, Author> {
 
-    public AuthorRepository(EntityManager entityManager) {
-        super(Author.class, entityManager);
+    public AuthorRepository(Class<Author> clazz, EntityManager entityManager) {
+        super(clazz, entityManager);
     }
 }

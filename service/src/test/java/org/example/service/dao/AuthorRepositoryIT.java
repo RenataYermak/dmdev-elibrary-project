@@ -1,20 +1,21 @@
 package org.example.service.dao;
 
+import org.example.service.database.entity.Author;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AuthorRepositoryIT extends IntegrationTestBase {
 
+    AuthorRepository authorRepository = new AuthorRepository(Author.class, session);
+
     @Test
     void findById() {
-        var authorRepository = new AuthorRepository(session);
-
         var actualAuthor = authorRepository.findById(1L);
+        session.clear();
 
         assertThat(actualAuthor).isPresent();
         assertThat(actualAuthor.get().getName()).isEqualTo("Stephan King");
@@ -22,9 +23,8 @@ public class AuthorRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findAll() {
-        var authorRepository = new AuthorRepository(session);
-
         var authors = authorRepository.findAll();
+        session.clear();
 
         assertNotNull(authors);
         assertThat(authors).hasSize(4);
@@ -33,36 +33,30 @@ public class AuthorRepositoryIT extends IntegrationTestBase {
     @Test
     void save() {
         var author = EntityTestUtil.getAuthor();
-        var authorRepository = new AuthorRepository(session);
 
         var actualAuthor = authorRepository.save(author);
 
-        assertThat(actualAuthor).isNotNull();
+        assertThat(actualAuthor.getId()).isNotNull();
     }
 
     @Test
-    void deleteExistingAuthor() {
-        var authorRepository = new AuthorRepository(session);
+    void delete() {
+        var author = EntityTestUtil.getAuthor();
+        authorRepository.save(author);
+        authorRepository.delete(author);
+        session.clear();
 
-        authorRepository.delete(1L);
+        var deletedAuthor = authorRepository.findById(author.getId());
 
-        assertThat(authorRepository.findById(1L)).isEmpty();
-    }
-
-    @Test
-    void deleteNotExistingAuthor() {
-        var authorRepository = new AuthorRepository(session);
-
-        assertThrows(IllegalArgumentException.class, () -> authorRepository.delete(100500900L));
+        assertThat(deletedAuthor).isEmpty();
     }
 
     @Test
     void update() {
-        var authorRepository = new AuthorRepository(session);
-
         var expectedAuthor = authorRepository.findById(1L).get();
         expectedAuthor.setName("Ernest Hemingway");
         authorRepository.update(expectedAuthor);
+        session.clear();
 
         var actualAuthor = authorRepository.findById(1L);
 

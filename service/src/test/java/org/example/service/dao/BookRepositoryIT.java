@@ -1,5 +1,6 @@
 package org.example.service.dao;
 
+import org.example.service.database.entity.Book;
 import org.example.service.dto.BookFilter;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
@@ -7,15 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BookRepositoryIT extends IntegrationTestBase {
 
+    BookRepository bookRepository = new BookRepository(Book.class, session);
+
     @Test
     void findById() {
-        var bookRepository = new BookRepository(session);
-
         var actualBook = bookRepository.findById(1L);
+        session.clear();
 
         assertThat(actualBook).isPresent();
         assertThat(actualBook.get().getTitle()).isEqualTo("Death on the Nile");
@@ -23,9 +24,8 @@ class BookRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findAll() {
-        var bookRepository = new BookRepository(session);
-
         var books = bookRepository.findAll();
+        session.clear();
 
         assertNotNull(books);
         assertThat(books).hasSize(4);
@@ -37,41 +37,38 @@ class BookRepositoryIT extends IntegrationTestBase {
         var author = EntityTestUtil.getAuthor();
         var book = EntityTestUtil.getBook(category, author);
 
-        var categoryRepository = new CategoryRepository(session);
-        var authorRepository = new AuthorRepository(session);
-        var bookRepository = new BookRepository(session);
-
-        categoryRepository.save(category);
-        authorRepository.save(author);
+        session.save(category);
+        session.save(author);
 
         var actualBook = bookRepository.save(book);
 
-        assertThat(actualBook).isNotNull();
+        assertThat(actualBook.getId()).isNotNull();
     }
 
     @Test
-    void deleteExistingBook() {
-        var bookRepository = new BookRepository(session);
+    void delete() {
+        var category = EntityTestUtil.getCategory();
+        var author = EntityTestUtil.getAuthor();
+        var book = EntityTestUtil.getBook(category, author);
 
-        bookRepository.delete(1L);
+        session.save(category);
+        session.save(author);
+        session.save(book);
 
-        assertThat(bookRepository.findById(1L)).isEmpty();
-    }
+        bookRepository.delete(book);
+        session.clear();
 
-    @Test
-    void deleteNotExistingBook() {
-        var bookRepository = new BookRepository(session);
+        var deletedBook = bookRepository.findById(book.getId());
 
-        assertThrows(IllegalArgumentException.class, () -> bookRepository.delete(100500900L));
+        assertThat(deletedBook).isEmpty();
     }
 
     @Test
     void update() {
-        var bookRepository = new BookRepository(session);
-
         var expectedBook = bookRepository.findById(1L).get();
         expectedBook.setTitle("New Title");
         bookRepository.update(expectedBook);
+        session.clear();
 
         var actualBook = bookRepository.findById(1L);
 
@@ -81,8 +78,6 @@ class BookRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findByFilterQueryDslWithAllParameters() {
-        var bookRepository = new BookRepository(session);
-
         var filter = BookFilter.builder()
                 .publishYear(1937)
                 .category("Detective")
@@ -93,13 +88,13 @@ class BookRepositoryIT extends IntegrationTestBase {
 
         assertNotNull(books);
         assertThat(books).hasSize(1);
-        assertThat(books.get(0).getId()).isEqualTo(1);
+        assertThat(books.get(0).getPublishYear()).isEqualTo(1937);
+        assertThat(books.get(0).getCategory().getName()).isEqualTo("Detective");
+        assertThat(books.get(0).getAuthor().getName()).isEqualTo("Agatha Christie");
     }
 
     @Test
     void findByFilterQueryDslWithTwoParameters() {
-        var bookRepository = new BookRepository(session);
-
         var filter = BookFilter.builder()
                 .publishYear(1937)
                 .category("Detective")
@@ -109,14 +104,14 @@ class BookRepositoryIT extends IntegrationTestBase {
 
         assertNotNull(books);
         assertThat(books).hasSize(2);
-        assertThat(books.get(0).getId()).isEqualTo(1);
-        assertThat(books.get(1).getId()).isEqualTo(4);
+        assertThat(books.get(0).getPublishYear()).isEqualTo(1937);
+        assertThat(books.get(0).getCategory().getName()).isEqualTo("Detective");
+        assertThat(books.get(1).getPublishYear()).isEqualTo(1937);
+        assertThat(books.get(1).getCategory().getName()).isEqualTo("Detective");
     }
 
     @Test
     void findByFilterQueryDslWithoutParameters() {
-        var bookRepository = new BookRepository(session);
-
         var filter = BookFilter.builder()
                 .build();
 

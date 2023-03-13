@@ -1,6 +1,7 @@
 package org.example.service.dao;
 
 import org.example.service.database.entity.Role;
+import org.example.service.database.entity.User;
 import org.example.service.dto.UserFilter;
 import org.example.service.integration.IntegrationTestBase;
 import org.example.service.util.EntityTestUtil;
@@ -8,15 +9,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UserRepositoryIT extends IntegrationTestBase {
 
+    UserRepository userRepository = new UserRepository(User.class, session);
+
     @Test
     void findById() {
-        var userRepository = new UserRepository(session);
-
         var actualUser = userRepository.findById(1L);
+        session.clear();
 
         assertThat(actualUser).isPresent();
         assertThat(actualUser.get().getEmail()).isEqualTo("renatayermak@gmail.com");
@@ -24,9 +25,8 @@ public class UserRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findAll() {
-        var userRepository = new UserRepository(session);
-
         var users = userRepository.findAll();
+        session.clear();
 
         assertNotNull(users);
         assertThat(users).hasSize(4);
@@ -35,36 +35,32 @@ public class UserRepositoryIT extends IntegrationTestBase {
     @Test
     void save() {
         var user = EntityTestUtil.getUser();
-        var userRepository = new UserRepository(session);
 
         var actualUser = userRepository.save(user);
 
-        assertThat(actualUser).isNotNull();
+        assertThat(actualUser.getId()).isNotNull();
     }
 
     @Test
-    void deleteExistingUser() {
-        var userRepository = new UserRepository(session);
+    void delete() {
+        var user = EntityTestUtil.getUser();
+        userRepository.save(user);
 
-        userRepository.delete(1L);
+        userRepository.delete(user);
+        session.clear();
 
-        assertThat(userRepository.findById(1L)).isEmpty();
-    }
+        var deletedUser = userRepository.findById(user.getId());
 
-    @Test
-    void deleteNotExistingUser() {
-        var userRepository = new UserRepository(session);
+        assertThat(deletedUser).isEmpty();
 
-        assertThrows(IllegalArgumentException.class, () -> userRepository.delete(100500900L));
     }
 
     @Test
     void update() {
-        var userRepository = new UserRepository(session);
-
         var expectedUser = userRepository.findById(1L).get();
         expectedUser.setEmail("newemail@gmail.com");
         userRepository.update(expectedUser);
+        session.clear();
 
         var actualUser = userRepository.findById(1L);
 
@@ -74,12 +70,11 @@ public class UserRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findExistUserByEmailAndPassword() {
-        var userRepository = new UserRepository(session);
-
         var email = "renatayermak@gmail.com";
         var password = "1212";
 
         var users = userRepository.findAllByEmailAndPassword(email, password);
+        session.clear();
 
         assertNotNull(users);
         assertThat(users).hasSize(1);
@@ -88,19 +83,16 @@ public class UserRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findNotExistUserByEmailAndPassword() {
-        var userRepository = new UserRepository(session);
-
         var email = "yermakrenata@gmail.com";
         var password = "1313";
         var users = userRepository.findAllByEmailAndPassword(email, password);
+        session.clear();
 
         assertThat(users).hasSize(0);
     }
 
     @Test
     void findUsersByQueryWithAllParameters() {
-        var userRepository = new UserRepository(session);
-
         var filter = UserFilter.builder()
                 .email("alex@gmail.com")
                 .firstname("Alex")
@@ -112,13 +104,14 @@ public class UserRepositoryIT extends IntegrationTestBase {
 
         assertNotNull(users);
         assertThat(users).hasSize(1);
-        assertThat(users.get(0).getId()).isEqualTo(2);
+        assertThat(users.get(0).getEmail()).isEqualTo("alex@gmail.com");
+        assertThat(users.get(0).getFirstname()).isEqualTo("Alex");
+        assertThat(users.get(0).getLastname()).isEqualTo("Yermak");
+        assertThat(users.get(0).getRole()).isEqualTo(Role.USER);
     }
 
     @Test
     void findUsersByQueryWithOneParameters() {
-        var userRepository = new UserRepository(session);
-
         var filter = UserFilter.builder()
                 .role(Role.USER)
                 .build();
@@ -127,15 +120,13 @@ public class UserRepositoryIT extends IntegrationTestBase {
 
         assertNotNull(users);
         assertThat(users).hasSize(3);
-        assertThat(users.get(0).getId()).isEqualTo(2);
-        assertThat(users.get(1).getId()).isEqualTo(3);
-        assertThat(users.get(2).getId()).isEqualTo(4);
+        assertThat(users.get(0).getRole()).isEqualTo(Role.USER);
+        assertThat(users.get(1).getRole()).isEqualTo(Role.USER);
+        assertThat(users.get(2).getRole()).isEqualTo(Role.USER);
     }
 
     @Test
     void findUsersByQueryWithoutParameters() {
-        var userRepository = new UserRepository(session);
-
         var filter = UserFilter.builder()
                 .build();
 

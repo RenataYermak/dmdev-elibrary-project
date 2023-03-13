@@ -13,8 +13,6 @@ public class CategoryIT extends IntegrationTestBase {
         var category = EntityTestUtil.getCategory();
         session.save(category);
 
-        session.clear();
-
         assertThat(category.getId()).isNotNull();
     }
 

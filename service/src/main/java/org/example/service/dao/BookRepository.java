@@ -13,8 +13,8 @@ import static org.example.service.database.entity.QCategory.category;
 
 public class BookRepository extends BaseRepository<Long, Book> {
 
-    public BookRepository(EntityManager entityManager) {
-        super(Book.class, entityManager);
+    public BookRepository(Class<Book> clazz, EntityManager entityManager) {
+        super(clazz, entityManager);
     }
 
     public List<Book> findByFilterQueryDsl(BookFilter filter) {

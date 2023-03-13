@@ -6,6 +6,7 @@ import org.example.service.database.entity.BaseEntity;
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -15,8 +16,8 @@ public abstract class BaseRepository<T extends Serializable, E extends BaseEntit
     protected final EntityManager entityManager;
 
     @Override
-    public Optional<E> findById(T id) {
-        return Optional.ofNullable(entityManager.find(clazz, id));
+    public Optional<E> findById(T id, Map<String, Object> properties) {
+        return Optional.ofNullable(entityManager.find(clazz, id, properties));
     }
 
     @Override
@@ -34,13 +35,14 @@ public abstract class BaseRepository<T extends Serializable, E extends BaseEntit
     }
 
     @Override
-    public void delete(T id) {
-        entityManager.remove(entityManager.find(clazz, id));
+    public void delete(E entity) {
+        entityManager.remove(entity);
         entityManager.flush();
     }
 
     @Override
     public void update(E entity) {
         entityManager.merge(entity);
+        entityManager.flush();
     }
 }

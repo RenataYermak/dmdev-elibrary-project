@@ -1,5 +1,6 @@
 package org.example.service.dao;
 
+import org.example.service.database.entity.Order;
 import org.example.service.database.entity.OrderStatus;
 import org.example.service.database.entity.OrderType;
 import org.example.service.dto.OrderFilter;
@@ -11,15 +12,15 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class OrderRepositoryIT extends IntegrationTestBase {
 
+    OrderRepository orderRepository = new OrderRepository(Order.class, session);
+
     @Test
     void findById() {
-        var orderRepository = new OrderRepository(session);
-
         var actualOrder = orderRepository.findById(1L);
+        session.clear();
 
         assertThat(actualOrder).isPresent();
         assertThat(actualOrder.get().getType()).isEqualTo(OrderType.SEASON_TICKET);
@@ -27,9 +28,8 @@ public class OrderRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findAll() {
-        var orderRepository = new OrderRepository(session);
-
         var orders = orderRepository.findAll();
+        session.clear();
 
         assertNotNull(orders);
         assertThat(orders).hasSize(5);
@@ -43,45 +43,44 @@ public class OrderRepositoryIT extends IntegrationTestBase {
         var user = EntityTestUtil.getUser();
         var order = EntityTestUtil.getOrder(book, user);
 
-        var categoryRepository = new CategoryRepository(session);
-        var authorRepository = new AuthorRepository(session);
-        var bookRepository = new BookRepository(session);
-        var userRepository = new UserRepository(session);
-        var orderRepository = new OrderRepository(session);
-
-        categoryRepository.save(category);
-        authorRepository.save(author);
-        bookRepository.save(book);
-        userRepository.save(user);
+        session.save(category);
+        session.save(author);
+        session.save(book);
+        session.save(user);
 
         var actualOrder = orderRepository.save(order);
 
-        assertThat(actualOrder).isNotNull();
+        assertThat(actualOrder.getId()).isNotNull();
     }
 
     @Test
-    void deleteExistingOrder() {
-        var orderRepository = new OrderRepository(session);
+    void delete() {
+        var category = EntityTestUtil.getCategory();
+        var author = EntityTestUtil.getAuthor();
+        var book = EntityTestUtil.getBook(category, author);
+        var user = EntityTestUtil.getUser();
+        var order = EntityTestUtil.getOrder(book, user);
 
-        orderRepository.delete(1L);
+        session.save(category);
+        session.save(author);
+        session.save(book);
+        session.save(user);
 
-        assertThat(orderRepository.findById(1L)).isEmpty();
-    }
+        orderRepository.save(order);
+        orderRepository.delete(order);
+        session.clear();
 
-    @Test
-    void deleteNotExistingOrder() {
-        var orderRepository = new OrderRepository(session);
+        var deletedOrder = orderRepository.findById(order.getId());
 
-        assertThrows(IllegalArgumentException.class, () -> orderRepository.delete(100500900L));
+        assertThat(deletedOrder).isEmpty();
     }
 
     @Test
     void update() {
-        var orderRepository = new OrderRepository(session);
-
         var expectedOrder = orderRepository.findById(1L).get();
         expectedOrder.setType(OrderType.READING_ROOM);
         orderRepository.update(expectedOrder);
+        session.clear();
 
         var actualOrder = orderRepository.findById(1L);
 
@@ -91,8 +90,6 @@ public class OrderRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findByFilterQueryDslWithAllParameters() {
-        var orderRepository = new OrderRepository(session);
-
         var filter = OrderFilter.builder()
                 .type(OrderType.READING_ROOM)
                 .status(OrderStatus.ORDERED)
@@ -110,8 +107,6 @@ public class OrderRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findByFilterQueryDslWithTwoParameters() {
-        var orderRepository = new OrderRepository(session);
-
         var filter = OrderFilter.builder()
                 .type(OrderType.READING_ROOM)
                 .status(OrderStatus.ORDERED)
@@ -127,8 +122,6 @@ public class OrderRepositoryIT extends IntegrationTestBase {
 
     @Test
     void findByFilterQueryDslWithoutParameters() {
-        var orderRepository = new OrderRepository(session);
-
         var filter = OrderFilter.builder()
                 .build();
 

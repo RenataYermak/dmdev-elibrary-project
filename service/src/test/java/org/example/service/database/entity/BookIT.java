@@ -18,8 +18,6 @@ public class BookIT extends IntegrationTestBase {
         session.save(author);
         session.save(book);
 
-        session.clear();
-
         assertThat(book.getId()).isNotNull();
     }
 

@@ -13,8 +13,8 @@ import static org.example.service.database.entity.QUser.user;
 
 public class OrderRepository extends BaseRepository<Long, Order> {
 
-    public OrderRepository(EntityManager entityManager) {
-        super(Order.class, entityManager);
+    public OrderRepository(Class<Order> clazz, EntityManager entityManager) {
+        super(clazz, entityManager);
     }
 
     public List<Order> findByFilterQueryDsl(OrderFilter filter) {

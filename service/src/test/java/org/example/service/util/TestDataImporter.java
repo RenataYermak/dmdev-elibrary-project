@@ -1,7 +1,6 @@
 package org.example.service.util;
 
 import lombok.experimental.UtilityClass;
-import lombok.Cleanup;
 import org.example.service.database.entity.Author;
 import org.example.service.database.entity.Book;
 import org.example.service.database.entity.Category;
@@ -19,45 +18,49 @@ import java.time.LocalDateTime;
 public class TestDataImporter {
 
     public void importData(SessionFactory sessionFactory) {
-        @Cleanup var session = sessionFactory.openSession();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
 
-        var drama = saveCategory(session, "Drama");
-        var horror = saveCategory(session, "Horror");
-        var detective = saveCategory(session, "Detective");
+            var drama = saveCategory(session, "Drama");
+            var horror = saveCategory(session, "Horror");
+            var detective = saveCategory(session, "Detective");
 
-        var stephanKing = saveAuthor(session, "Stephan King");
-        var conanDoyle = saveAuthor(session, "Conan Doyle");
-        var edgarAllanPoe = saveAuthor(session, "Edgar Allan Poe");
-        var agathaChristie = saveAuthor(session, "Agatha Christie");
+            var stephanKing = saveAuthor(session, "Stephan King");
+            var conanDoyle = saveAuthor(session, "Conan Doyle");
+            var edgarAllanPoe = saveAuthor(session, "Edgar Allan Poe");
+            var agathaChristie = saveAuthor(session, "Agatha Christie");
 
-        var deathOnTheNile = saveBook(session, "Death on the Nile", 1937,
-                "description", 5, detective, agathaChristie);
-        var thePrematureBurial = saveBook(session, "The Premature Burial", 1977,
-                "description", 2, drama, edgarAllanPoe);
-        var theMemoirsOfSherlockHolmes = saveBook(session, "The Memoirs of Sherlock Holmes", 1893,
-                "description", 7, horror, conanDoyle);
-        var theShining = saveBook(session, "The Shining", 1937,
-                "description", 8, detective, stephanKing);
+            var deathOnTheNile = saveBook(session, "Death on the Nile", 1937,
+                    "description", 5, detective, agathaChristie);
+            var thePrematureBurial = saveBook(session, "The Premature Burial", 1977,
+                    "description", 2, drama, edgarAllanPoe);
+            var theMemoirsOfSherlockHolmes = saveBook(session, "The Memoirs of Sherlock Holmes", 1893,
+                    "description", 7, horror, conanDoyle);
+            var theShining = saveBook(session, "The Shining", 1937,
+                    "description", 8, detective, stephanKing);
 
-        var renata = saveUser(session, "Renata", "Yermak",
-                "renatayermak@gmail.com", "1212", Role.ADMIN);
-        var alex = saveUser(session, "Alex", "Yermak",
-                "alex@gmail.com", "3333", Role.USER);
-        var nikita = saveUser(session, "Nikita", "Shturo",
-                "nikita@gmail.com", "2222", Role.USER);
-        var eva = saveUser(session, "Eva", "Shturo",
-                "eva@gmail.com", "1212", Role.USER);
+            var renata = saveUser(session, "Renata", "Yermak",
+                    "renatayermak@gmail.com", "1212", Role.ADMIN);
+            var alex = saveUser(session, "Alex", "Yermak",
+                    "alex@gmail.com", "3333", Role.USER);
+            var nikita = saveUser(session, "Nikita", "Shturo",
+                    "nikita@gmail.com", "2222", Role.USER);
+            var eva = saveUser(session, "Eva", "Shturo",
+                    "eva@gmail.com", "1212", Role.USER);
 
-        saveOrder(session, deathOnTheNile, renata, OrderStatus.RESERVED,
-                OrderType.SEASON_TICKET, LocalDateTime.of(2023, 1, 10, 8, 54));
-        saveOrder(session, theShining, renata, OrderStatus.ORDERED,
-                OrderType.READING_ROOM, LocalDateTime.of(2023, 3, 4, 6, 39));
-        saveOrder(session, deathOnTheNile, alex, OrderStatus.RETURNED,
-                OrderType.SEASON_TICKET, LocalDateTime.of(2013, 4, 23, 13, 40));
-        saveOrder(session, thePrematureBurial, eva, OrderStatus.ORDERED,
-                OrderType.READING_ROOM, LocalDateTime.of(2018, 4, 22, 5, 24));
-        saveOrder(session, theMemoirsOfSherlockHolmes, nikita, OrderStatus.REJECTED,
-                OrderType.READING_ROOM, LocalDateTime.of(2019, 8, 12, 17, 34));
+            saveOrder(session, deathOnTheNile, renata, OrderStatus.RESERVED,
+                    OrderType.SEASON_TICKET, LocalDateTime.of(2023, 1, 10, 8, 54));
+            saveOrder(session, theShining, renata, OrderStatus.ORDERED,
+                    OrderType.READING_ROOM, LocalDateTime.of(2023, 3, 4, 6, 39));
+            saveOrder(session, deathOnTheNile, alex, OrderStatus.RETURNED,
+                    OrderType.SEASON_TICKET, LocalDateTime.of(2013, 4, 23, 13, 40));
+            saveOrder(session, thePrematureBurial, eva, OrderStatus.ORDERED,
+                    OrderType.READING_ROOM, LocalDateTime.of(2018, 4, 22, 5, 24));
+            saveOrder(session, theMemoirsOfSherlockHolmes, nikita, OrderStatus.REJECTED,
+                    OrderType.READING_ROOM, LocalDateTime.of(2019, 8, 12, 17, 34));
+
+            session.getTransaction().commit();
+        }
     }
 
     private Category saveCategory(Session session, String name) {

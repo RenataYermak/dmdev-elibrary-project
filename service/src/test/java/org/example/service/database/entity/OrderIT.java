@@ -21,8 +21,6 @@ public class OrderIT extends IntegrationTestBase {
         session.save(user);
         session.save(order);
 
-        session.clear();
-
         assertThat(order.getId()).isNotNull();
     }
 
